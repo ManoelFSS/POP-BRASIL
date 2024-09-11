@@ -8,29 +8,29 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      manifest: {
-        name: 'POP BRASIL FM',
-        short_name: 'POP BRASIL',
-        description: 'Uma aplicação web feita em React com Vite',
-        theme_color: '#2A4F7D',
+      manifest:{
+        name: "POP BRASIL FM",
+        short_name: "POP BRASIL",
+        description: "Uma aplicação web feita em React com Vite",
+        theme_color: "#2A4F7D",
         display: "fullscreen",
         orientation: "any",
         icons: [
           {
-            src: '../public/pop-brasil.webp', // Substitua pelo caminho do ícone do seu app
-            sizes: '280x280',
-            type: 'image/png'
+            src: "pop-brasil.webp",
+            sizes: "280x280",
+            type: "image/png"
           },
           {
-            src: '../public/pop-brasil.webp', // Substitua pelo caminho do ícone do seu app
-            sizes: '512x512',
-            type: 'image/png'
+            src: "pop-brasil.webp",
+            sizes: "512x512",
+            type: "image/png"
           }
         ]
       },
-      registerType: 'autoUpdate',
+      registerType: "autoUpdate",
       devOptions: {
-        enabled: false // Apenas para desenvolvimento
+        enabled: true // Apenas para desenvolvimento
       }
     })
   ],
