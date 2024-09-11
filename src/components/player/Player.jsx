@@ -1,88 +1,8 @@
-import React, { useState, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useState, useRef, useEffect } from 'react';
+import { PlayerControls, VolumeContainer, VolumeIndicator, Container_img, Btns } from './PlayerStyles';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-
-const PlayerControls = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 40px;
-  align-items: center;
-`;
-
-const ControlButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  background: #04375E;
-  box-shadow: -3px -3px 25px rgba(87, 179, 255, 0.8),  5px 5px 20px rgba(6, 22, 42, 1);
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  color:#fff;
-  transition: color 0.3s;
-  cursor: pointer;
-  
-
-  &:hover {
-    color: red;
-  }
-    z-index: 99;
-`;
-
-const VolumeContainer = styled.div`
-  position: relative;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: conic-gradient(
-    rgba(44, 44, 44, 0.5) ${({ volume }) => volume * 360}deg,
-    #2C609E ${({ volume }) => volume * 360}deg
-  );
-  box-shadow: inset 2px 2px 16px rgba(3, 38, 83, 0.7), -7px -7px 30px rgba(87, 179, 255, 0.8),  5px 8px 30px rgba(6, 22, 42, 0.971);
-  z-index: 99;
-`;
-
-const VolumeIndicator = styled.div`
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  background-color: red;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(${({ volume }) => (volume * 360) - 90}deg) translate(92px);
-  cursor: pointer;
-  z-index: 99;
-  box-shadow: 1px 1px 10px rgba(2, 19, 40, 0.9);
- 
-
-`;
-
-const Container_img = styled.div`
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    z-index: 1;
-    user-select: none;
-    outline: none;
-    pointer-events: none; /* Desabilita interações com o ponteiro */
-    box-shadow:  1px 2px 10px rgba(3, 38, 83, 1);
-    overflow: hidden;
-    background: #fff url( ${({ albumCover }) => albumCover}) no-repeat center / 80% 80%;
-`
-const Btns = styled.div`
-    display: flex;
-    justify-content:center;
-    gap: 20px;
-    z-index: 99;
-`
+import Btn_icon from "../btn/Btn_Icon";
 
 const calculateAngle = (x, y, centerX, centerY) => {
   const dx = x - centerX;
@@ -109,6 +29,14 @@ const Player = ({ audioSrc, albumCover }) => {
       setIsPlaying(!isPlaying);
     }
   };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume; // Define o volume inicial
+      audioRef.current.play(); // Inicia a reprodução automática
+      setIsPlaying(true); // Atualiza o estado para "reproduzindo"
+    }
+  }, []); // O array vazio garante que isso ocorra apenas na montagem
 
   const handleVolumeChange = (clientX, clientY) => {
     const containerRect = volumeContainerRef.current.getBoundingClientRect();
@@ -154,32 +82,21 @@ const Player = ({ audioSrc, albumCover }) => {
       onTouchEnd={handleMouseUp}
     >
       <audio ref={audioRef} src={audioSrc} />
-        <PlayerControls>
-            <Btns>
-                {/* <ControlButton onClick={handlePlayPause}>
-                    <TbPlayerTrackPrevFilled />
-                </ControlButton> */}
-               
-                <ControlButton onClick={handlePlayPause}>
-                    {isPlaying ? <FaPause /> : <FaPlay />}
-                </ControlButton>
-
-                {/* <ControlButton onClick={handlePlayPause}>
-                    <TbPlayerTrackNextFilled />
-                </ControlButton> */}
-                
-            </Btns>
-            <VolumeContainer volume={volume} ref={volumeContainerRef}>
-                <Container_img albumCover={albumCover}>
-
-                </Container_img>
-                <VolumeIndicator
-                    volume={volume}
-                    onMouseDown={handleMouseDown}
-                    onTouchMove={handleTouchMove}
-                />
-            </VolumeContainer>
-        </PlayerControls>
+      <PlayerControls>
+        <Btns>
+          <Btn_icon icon={<TbPlayerTrackPrevFilled/> }  onClick={handlePlayPause} />
+          <Btn_icon icon={isPlaying ? <FaPause style={{ color: "red" }} /> : <FaPlay />} onClick={handlePlayPause} />
+          <Btn_icon icon={<TbPlayerTrackNextFilled/> }  onClick={handlePlayPause} />
+        </Btns>
+        <VolumeContainer $volume={volume} ref={volumeContainerRef}>
+          <Container_img style={{ background: ` #fff url(${albumCover}) no-repeat center / 80% 80%` }} />
+            <VolumeIndicator
+              $volume={volume}
+              onMouseDown={handleMouseDown}
+              onTouchMove={handleTouchMove}
+            />
+        </VolumeContainer>
+      </PlayerControls>
     </div>
   );
 };

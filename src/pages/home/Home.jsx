@@ -3,7 +3,7 @@ import  Player from "../../components/player/Player"
 
 const Home = () => {
 
-     const audioSrc = "https://s03.transmissaodigital.com:6694/stream"
+    const audioSrc = "https://s03.transmissaodigital.com:6694/stream" // link de reprodução da Pop Brasil FM
 
     return (
         <Container_home>
