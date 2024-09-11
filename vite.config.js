@@ -30,7 +30,7 @@ export default defineConfig({
       },
       registerType: 'autoUpdate',
       devOptions: {
-        enabled: true // Apenas para desenvolvimento
+        enabled: false // Apenas para desenvolvimento
       }
     })
   ],
