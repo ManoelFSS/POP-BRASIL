@@ -14,7 +14,7 @@ export default defineConfig({
         start_url: "/",
         description: "Uma aplicação web feita em React com Vite",
         theme_color: "#2A4F7D", // Cor da barra de status
-        background_color: "#ffffff", // Cor de fundo da splash screen
+        background_color: "#2A4F7D", // Cor de fundo da splash screen
         display: "fullscreen",
         orientation: "any",
         icons: [
