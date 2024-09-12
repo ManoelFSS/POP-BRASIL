@@ -17,21 +17,21 @@ export default defineConfig({
         orientation: "any",
         icons: [
           {
-            src: "pop-brasil.webp",
+            src: "pop-brasil.png",
             sizes: "280x280",
-            type: "image/webp"
+            type: "image/png"
           },
           {
-            src: "pop-brasil.webp",
+            src: "pop-brasil.png",
             sizes: "512x512",
-            type: "image/webp"
+            type: "image/png"
           }
         ]
       },
       registerType: "autoUpdate",
-      devOptions: {
-        enabled: false // Apenas para desenvolvimento
-      }
-    })
+      // devOptions: {
+      //   enabled: true // Apenas para desenvolvimento
+      // }
+    }),
   ],
 })
