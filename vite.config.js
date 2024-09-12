@@ -19,18 +19,18 @@ export default defineConfig({
           {
             src: "pop-brasil.webp",
             sizes: "280x280",
-            type: "image/png"
+            type: "image/webp"
           },
           {
             src: "pop-brasil.webp",
             sizes: "512x512",
-            type: "image/png"
+            type: "image/webp"
           }
         ]
       },
       registerType: "autoUpdate",
       devOptions: {
-        enabled: true // Apenas para desenvolvimento
+        enabled: false // Apenas para desenvolvimento
       }
     })
   ],
