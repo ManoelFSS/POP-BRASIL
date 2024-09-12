@@ -1,18 +1,20 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa';
-
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      manifest:{
+      manifest: {
+        id: "pop-brasil",
         name: "POP BRASIL FM",
         short_name: "POP BRASIL",
+        start_url: "/",
         description: "Uma aplicação web feita em React com Vite",
-        theme_color: "#2A4F7D",
+        theme_color: "#2A4F7D", // Cor da barra de status
+        background_color: "#ffffff", // Cor de fundo da splash screen
         display: "fullscreen",
         orientation: "any",
         icons: [
@@ -28,10 +30,35 @@ export default defineConfig({
           }
         ]
       },
-      registerType: "autoUpdate",
+      registerType: "autoUpdate", // Atualização automática do SW
       devOptions: {
-        enabled: false // Apenas para desenvolvimento
-      }
+        enabled: false // Service worker ativado apenas no modo de desenvolvimento
+      },
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: /\/.*/, // Configuração para cachear as rotas
+            handler: 'NetworkFirst', // Estratégia de cache
+          },
+        ],
+      },
+        includeAssets: ['registerSW.js', 'outro-arquivo.js', 'favicon.ico'],
+       // Assets a serem incluídos no cache
+      "screenshots": [
+        {
+          "src": "pop-brasil.png",
+          "sizes": "500x500",
+          "type": "image/png",
+          "platform": "wide"
+        },
+        {
+          "src": "pop-brasil.png",
+          "sizes": "640x800",
+          "type": "image/png",
+          "platform": "narrow"
+        }
+      ]
+
     }),
   ],
 })
