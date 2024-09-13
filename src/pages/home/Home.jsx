@@ -8,6 +8,7 @@ import SomGif from "../../../public/somGif.gif";
 const Home = () => {
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isStandalone, setIsStandalone] = useState(false);
+    const [isInstallable, setIsInstallable] = useState(false);
 
     useEffect(() => {
         // Verifica se o app está em modo standalone
@@ -17,15 +18,15 @@ const Home = () => {
 
         checkStandalone();
 
-        // Adiciona o evento antes do prompt de instalação
         const handleBeforeInstallPrompt = (e) => {
-            e.preventDefault(); // Previne a exibição automática do prompt
-            setDeferredPrompt(e); // Armazena o evento do prompt
+            e.preventDefault(); // Previne o comportamento padrão do prompt
+            setDeferredPrompt(e); // Armazena o evento
+            setIsInstallable(true); // Exibe o botão de instalação
+            console.log("Prompt de instalação capturado.");
         };
 
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-        // Limpa o evento ao desmontar o componente
         return () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         };
@@ -37,6 +38,9 @@ const Home = () => {
             const { outcome } = await deferredPrompt.userChoice; // Aguarda a escolha do usuário
             console.log(outcome === 'accepted' ? 'Usuário aceitou a instalação' : 'Usuário rejeitou a instalação');
             setDeferredPrompt(null); // Reseta o prompt após o uso
+            setIsInstallable(false); // Oculta o botão de instalação
+        } else {
+            console.log("Nenhum prompt de instalação disponível.");
         }
     };
 
@@ -54,8 +58,8 @@ const Home = () => {
 
                 <Card_Locutor />
 
-                {/* Renderiza o botão de instalação apenas se não estiver em modo standalone */}
-                {deferredPrompt && !isStandalone && (
+                {/* Renderiza o botão de instalação apenas se não estiver em modo standalone e for instalável */}
+                {isInstallable && !isStandalone && (
                     <Btn_Install_app onClick={handleInstallClick} />
                 )}
             </Container_home>
