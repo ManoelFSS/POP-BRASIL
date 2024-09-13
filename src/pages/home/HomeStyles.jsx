@@ -6,7 +6,7 @@ export const Container_home = styled.div`
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 50px 10px;
+    padding: 0px 15px;
 
     .gif {
         display: flex;
