@@ -3,14 +3,15 @@ import styled from "styled-components";
 export const Container_card_locutor = styled.div`
     display: flex;
     justify-content: center;
-    max-width: 300px;
+    max-width: 500px;
     min-width: 290px;
     height: 260px;
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.3);
     overflow: hidden;
-   
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.8);
+
+    
 
     .card_left {
         background-color: #062034;
