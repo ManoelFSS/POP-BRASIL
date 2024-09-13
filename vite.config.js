@@ -32,7 +32,7 @@ export default defineConfig({
       },
       registerType: "autoUpdate", // Atualização automática do SW
       devOptions: {
-        enabled: true // Service worker ativado apenas no modo de desenvolvimento
+        enabled: false// Service worker ativado apenas no modo de desenvolvimento
       },
       workbox: {
         runtimeCaching: [
