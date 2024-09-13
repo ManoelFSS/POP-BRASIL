@@ -1,44 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { Container_home } from "./HomeStyles"
+import { Container_home } from "./HomeStyles";
 import Btn_Install_app from "../../components/btn/Btn_Install_app";
-import  Player from "../../components/player/Player"
-import Card_Locutor from "../../components/cards/card_locutor/Card_Locutor"
-import SomGif from "../../../public/somGif.gif"
+import Player from "../../components/player/Player";
+import Card_Locutor from "../../components/cards/card_locutor/Card_Locutor";
+import SomGif from "../../../public/somGif.gif";
 
 const Home = () => {
-
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isStandalone, setIsStandalone] = useState(false);
 
     useEffect(() => {
         // Verifica se o app está em modo standalone
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            setIsStandalone(true);
-            console.log('App já está instalado ou em modo standalone.');
-        } else {
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                setDeferredPrompt(e);
-                console.log('Prompt de instalação exibido.');
-            });
-        }
+        const checkStandalone = () => {
+            setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
+        };
 
-        // Limpeza do efeito
+        checkStandalone();
+
+        // Adiciona o evento antes do prompt de instalação
+        const handleBeforeInstallPrompt = (e) => {
+            e.preventDefault(); // Previne a exibição automática do prompt
+            setDeferredPrompt(e); // Armazena o evento do prompt
+        };
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+        // Limpa o evento ao desmontar o componente
         return () => {
-            window.removeEventListener('beforeinstallprompt', () => {});
+            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         };
     }, []);
 
     const handleInstallClick = async () => {
         if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt.prompt(); // Exibe o prompt de instalação
+            const { outcome } = await deferredPrompt.userChoice; // Aguarda a escolha do usuário
             console.log(outcome === 'accepted' ? 'Usuário aceitou a instalação' : 'Usuário rejeitou a instalação');
-            setDeferredPrompt(null); // Reseta o prompt
+            setDeferredPrompt(null); // Reseta o prompt após o uso
         }
     };
 
-    const audioSrc = "https://s03.transmissaodigital.com:6694/stream" // link de reprodução da Pop Brasil FM
+    const audioSrc = "https://s03.transmissaodigital.com:6694/stream"; // link de reprodução da Pop Brasil FM
 
     return (
         <>
@@ -51,12 +53,14 @@ const Home = () => {
                 </div>
 
                 <Card_Locutor />
-                
-               { < Btn_Install_app  onClick={() => handleInstallClick()} /> }
+
+                {/* Renderiza o botão de instalação apenas se não estiver em modo standalone */}
+                {deferredPrompt && !isStandalone && (
+                    <Btn_Install_app onClick={handleInstallClick} />
+                )}
             </Container_home>
         </>
-        
-    )
-}
+    );
+};
 
-export default Home
+export default Home;
