@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const PlayerControls = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  gap: 40px;
+  gap: 50px;
   align-items: center;
 `;
 

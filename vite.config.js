@@ -16,16 +16,16 @@ export default defineConfig({
         theme_color: "#2A4F7D", // Cor da barra de status
         background_color: "#2A4F7D", // Cor de fundo da splash screen
         display: "fullscreen",
-        orientation: "any",
+        orientation: "portrait",
         icons: [
           {
             src: "pop-brasil.png",
-            sizes: "280x280",
+            sizes: "200x200",
             type: "image/png"
           },
           {
             src: "pop-brasil.png",
-            sizes: "512x512",
+            sizes: "200x200",
             type: "image/png"
           }
         ]
@@ -46,14 +46,14 @@ export default defineConfig({
        // Assets a serem incluídos no cache
       "screenshots": [
         {
-          "src": "pop-brasil.png",
-          "sizes": "500x500",
+          "src": "print.jpeg",
+          "sizes": "1900x922",
           "type": "image/png",
           "platform": "wide"
         },
         {
-          "src": "pop-brasil.png",
-          "sizes": "640x800",
+          "src": "pc.png",
+          "sizes": "575x1280",
           "type": "image/png",
           "platform": "narrow"
         }

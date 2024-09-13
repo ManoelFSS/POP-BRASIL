@@ -7,8 +7,14 @@ export const Install = styled.button`
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #FFD700;
+    background-color: #2C609E;
+    color: #fff;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 40px;
+    trasition: background-color 0.3s;
+    margin-top: 20px;
+
+    &:hover {
+        background-color: #04375E;
+    }
 `

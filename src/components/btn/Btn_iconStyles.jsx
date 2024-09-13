@@ -5,8 +5,8 @@ export const Button  = styled.button`
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     background: #04375E;
     box-shadow: -3px -3px 16px rgba(87, 179, 255, 0.6),  7px 6px 20px rgba(6, 0, 0, 1);
     border: none;

@@ -52,7 +52,7 @@ const Home = () => {
 
                 <Card_Locutor />
                 
-                {/* < Btn_Install_app  onClick={() => handleInstallClick()} /> */}
+               { < Btn_Install_app  onClick={() => handleInstallClick()} /> }
             </Container_home>
         </>
         
