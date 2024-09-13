@@ -12,7 +12,7 @@ export const Container_home = styled.div`
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 80px;
+        height: 110px;
         margin-top: 30px;
         padding: 0 10px;
         
