@@ -3,17 +3,19 @@ import styled from "styled-components";
 export const Container_card_locutor = styled.div`
     display: flex;
     justify-content: center;
-    max-width: 400px;
+    max-width: 300px;
     min-width: 290px;
-    height: 230px;
+    height: 260px;
     border-radius: 10px;
     background: rgba(0, 0, 0, 0.3);
     overflow: hidden;
+   
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.8);
 
     .card_left {
         background-color: #062034;
         position: relative;
+        border-radius: 10px ;
 
         .heart {
             position: absolute;
@@ -27,7 +29,7 @@ export const Container_card_locutor = styled.div`
         img {
             width: 120px;
             height: 120px;
-            border-radius: 10px 0 0 0;
+            border-radius: 10px 10px 0 0;
             
         }
 
@@ -36,10 +38,11 @@ export const Container_card_locutor = styled.div`
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 40px;
-            gap: 20px;
-            font-size: 1.3rem;
+            height: 60px;
+            gap: 10px;
+            font-size: 1.7rem;
             color: #fff;
+     
     
             .facebook, .instagram, .whatsapp {
                 cursor: pointer;
@@ -57,9 +60,10 @@ export const Container_card_locutor = styled.div`
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 65px;
+            height: 70px;
             gap: 8px;
             color: #fff;
+     
 
             h4 {
                 font-size: 1rem;
@@ -89,19 +93,17 @@ export const Container_card_locutor = styled.div`
 
             p {
                 color: #aaa;
-                font-size: 0.8rem;
+                font-size: 0.9rem;
                 padding-top: 2px;
             }
         }
 
         .descricao {
-
-            height: 125px;
             width: 100%;
 
             p {
-                font-size: 0.7rem;
-                padding: 5px 0 0 0;
+                font-size: 0.9rem;
+                padding-top: 6px;
             }
         }
 

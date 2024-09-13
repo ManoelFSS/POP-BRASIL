@@ -30,7 +30,7 @@ const Card_Locutor = () => {
                 <div className="descricao">
                     <h3>Descrisção</h3>
                     <p>
-                        Fofocalizando é um programa de rádio que traz as principais notícias e polêmicas do mundo das celebridades. Com uma abordagem leve e envolvente,  e novidades do universo dos famosos.
+                        Fofocalizando é um programa de rádio que se destaca por trazer as últimas notícias e polêmicas do universo das celebridades. Com uma abordagem leve e descontraída...
                     </p>
                 </div>
 
