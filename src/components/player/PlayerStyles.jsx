@@ -9,8 +9,8 @@ export const PlayerControls = styled.div`
 
 export const VolumeContainer = styled.div`
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -31,7 +31,7 @@ export const VolumeIndicator = styled.div`
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(92px);
+  transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(124px);
   cursor: pointer;
   z-index: 99;
   box-shadow: 1px 1px 10px rgba(2, 19, 40, 0.9);
@@ -39,8 +39,8 @@ export const VolumeIndicator = styled.div`
 `;
 
 export const Container_img = styled.div`
-    width: 170px;
-    height: 170px;
+    width: 230px;
+    height: 230px;
     border-radius: 50%;
     z-index: 1;
     user-select: none;
@@ -52,6 +52,6 @@ export const Container_img = styled.div`
 export const Btns = styled.div`
     display: flex;
     justify-content:center;
-    gap: 20px;
+    gap: 40px;
     z-index: 99;
 `

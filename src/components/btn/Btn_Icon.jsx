@@ -4,7 +4,7 @@ const Btn_icon = ({ icon, onClick }) => {
 
     return (
         <Button onClick={onClick}>
-            {icon}
+            <div className="icon">{icon}</div>
         </Button>
     )
 }

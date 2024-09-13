@@ -1,55 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { Container_home } from "./HomeStyles"
+import Btn_Install_app from "../../components/btn/Btn_Install_app";
 import  Player from "../../components/player/Player"
-
+import SomGif from "../../../public/somGif.gif"
 
 const Home = () => {
 
-    const [installPrompt, setInstallPrompt] = useState(null);
+    const [deferredPrompt, setDeferredPrompt] = useState(null);
+    const [isStandalone, setIsStandalone] = useState(false);
 
-  useEffect(() => {
-    // Ouvir o evento 'beforeinstallprompt'
-    const handleBeforeInstallPrompt = (event) => {
-      // Prevenir o prompt padrão do navegador
-      event.preventDefault();
-      // Salvar o evento para que possa ser acionado mais tarde
-      setInstallPrompt(event);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    return () => {
-      // Limpar o ouvinte de eventos quando o componente for desmontado
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
-  }, []);
-
-  const handleInstallClick = () => {
-    console.log('Clicou no botão de instalar');
-    // Mostrar o prompt de instalação ao usuário
-    if (installPrompt) {
-      installPrompt.prompt();
-      installPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('Usuário aceitou a instalação do PWA');
+    useEffect(() => {
+        // Verifica se o app está em modo standalone
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            setIsStandalone(true);
+            console.log('App já está instalado ou em modo standalone.');
         } else {
-          console.log('Usuário não aceitou a instalação do PWA');
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                setDeferredPrompt(e);
+                console.log('Prompt de instalação exibido.');
+            });
         }
-        // Resetar a variável após ser usada
-        setInstallPrompt(null);
-      });
-    }
-  };
+
+        // Limpeza do efeito
+        return () => {
+            window.removeEventListener('beforeinstallprompt', () => {});
+        };
+    }, []);
+
+    const handleInstallClick = async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(outcome === 'accepted' ? 'Usuário aceitou a instalação' : 'Usuário rejeitou a instalação');
+            setDeferredPrompt(null); // Reseta o prompt
+        }
+    };
 
     const audioSrc = "https://s03.transmissaodigital.com:6694/stream" // link de reprodução da Pop Brasil FM
 
     return (
-        <Container_home>
-            <Player audioSrc={audioSrc} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />
-            <button onClick={() => handleInstallClick()}>
-                Instalar Aplicativo
-            </button>
-        </Container_home>
+        <>
+            <Container_home>
+                <div className="player">
+                    <Player audioSrc={audioSrc} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />
+                </div>
+                <div className="gif">
+                    <img src={SomGif} alt="gif som animation" />
+                </div>
+                
+                {/* < Btn_Install_app  onClick={() => handleInstallClick()} /> */}
+            </Container_home>
+        </>
+        
     )
 }
 
