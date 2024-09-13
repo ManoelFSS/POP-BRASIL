@@ -24,9 +24,12 @@ export const VolumeContainer = styled.div`
 `;
 
 export const VolumeIndicator = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   background-color: red;
   border-radius: 50%;
   top: 50%;
@@ -35,7 +38,24 @@ export const VolumeIndicator = styled.div`
   cursor: pointer;
   z-index: 99;
   box-shadow: 1px 1px 10px rgba(2, 19, 40, 0.9);
+  color: #fff;
+  font-size: 0.8rem;
+  animation: rotate 0.2s linear infinite;
 
+  @keyframes rotate {
+    0% , 40% {
+      color: #fff;
+    }
+    50% , 60% {
+      color: #43fc00;
+    }
+    70% , 80% {
+      color: yellow; 
+    }
+    90% ,100% {
+      color: #fff;
+    }
+  }
 `;
 
 export const Container_img = styled.div`

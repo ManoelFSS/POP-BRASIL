@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PlayerControls, VolumeContainer, VolumeIndicator, Container_img, Btns } from './PlayerStyles';
 import { FaPlay, FaPause } from 'react-icons/fa';
+import { AiFillSound } from "react-icons/ai";
+
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import Btn_icon from "../btn/Btn_Icon";
 
@@ -90,11 +92,15 @@ const Player = ({ audioSrc, albumCover }) => {
         </Btns>
         <VolumeContainer $volume={volume} ref={volumeContainerRef}>
           <Container_img style={{ background: ` #fff url(${albumCover}) no-repeat center / 80% 80%` }} />
+            
             <VolumeIndicator
               $volume={volume}
               onMouseDown={handleMouseDown}
               onTouchMove={handleTouchMove}
-            />
+              style={{background: ` url(${<AiFillSound /> }) no-repeat center / 80% 80%` }}
+            >
+              <AiFillSound />
+            </VolumeIndicator>
         </VolumeContainer>
       </PlayerControls>
     </div>

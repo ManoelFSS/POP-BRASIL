@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container_home } from "./HomeStyles"
 import Btn_Install_app from "../../components/btn/Btn_Install_app";
 import  Player from "../../components/player/Player"
+import Card_Locutor from "../../components/cards/card_locutor/Card_Locutor"
 import SomGif from "../../../public/somGif.gif"
 
 const Home = () => {
@@ -48,6 +49,8 @@ const Home = () => {
                 <div className="gif">
                     <img src={SomGif} alt="gif som animation" />
                 </div>
+
+                <Card_Locutor />
                 
                 {/* < Btn_Install_app  onClick={() => handleInstallClick()} /> */}
             </Container_home>

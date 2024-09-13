@@ -14,10 +14,6 @@ export const Button  = styled.button`
     transition: color 0.3s;
     cursor: pointer;
     
-    &:hover {
-        color: red;
-    }
-
     .icon {
         display: flex;
         justify-content: center;
@@ -26,6 +22,10 @@ export const Button  = styled.button`
         height: 30px;
         font-size: 1.8rem;
         color:#fff;
+
+        &:hover {
+            color: red;
+        }
     }
 
     &:nth-child(2) {
