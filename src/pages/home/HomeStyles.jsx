@@ -5,8 +5,8 @@ export const Container_home = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 0px 15px;
+    min-height: 100svh;
+    padding: 0px 20px;
 
     .gif {
         display: flex;
