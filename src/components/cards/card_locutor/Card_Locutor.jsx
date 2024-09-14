@@ -1,11 +1,26 @@
+import React, { useState } from 'react'
 import { Container_card_locutor } from "./CardStyles"
-import { FaFacebookF, FaInstagram, FaWhatsapp, FaExpand, FaRegHeart  } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaWhatsapp, FaExpand, FaRegHeart, FaHeart  } from "react-icons/fa";
 
 const Card_Locutor = () => {
+
+    const [like, setLike] = useState(false)
+
     return (
         <Container_card_locutor>
             <div className="card_left">
-                <FaRegHeart className="heart" />
+
+                { like === false ?
+                    <FaRegHeart 
+                        className="heart"
+                        onClick={() => setLike(true)}
+                    /> :
+                    <FaHeart 
+                        className="heart"
+                        onClick={() => setLike(false)}
+                    />
+                }
+
                 <img src="https://enlightenedaudio.com/wp-content/uploads/2023/03/Kate-1007x800.jpg" alt="Locutor" />
                 <div className="icones">
                     <FaFacebookF className="facebook" />

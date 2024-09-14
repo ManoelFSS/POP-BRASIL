@@ -10,13 +10,15 @@ export const Container_home = styled.div`
     min-height: 100svh;
     padding: 0px 20px;
 
+
+
     .gif {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 30%;
-        height:80px;
-        margin-top: 30px;
+        height:100px;
+        margin-top: 20px;
         
         img {
             width: 100%;

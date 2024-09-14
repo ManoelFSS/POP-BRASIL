@@ -6,6 +6,7 @@ import Card_Locutor from "../../components/cards/card_locutor/Card_Locutor";
 import SomGif from "../../../public/somGif.gif";
 
 const Home = () => {
+
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isStandalone, setIsStandalone] = useState(false);
     const [isInstallable, setIsInstallable] = useState(false);
@@ -49,13 +50,13 @@ const Home = () => {
         }
     };
 
-    const audioSrc = "https://s03.transmissaodigital.com:6694/stream"; // link de reprodução da Pop Brasil FM
+    const MP3 = import.meta.env.VITE_MP3_RADIO
 
     return (
         <>
             <Container_home>
                 <div className="player">
-                    <Player audioSrc={audioSrc} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />
+                    <Player audioSrc={MP3} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />
                 </div>
                 <div className="gif">
                     <img src={SomGif} alt="gif som animation" />
