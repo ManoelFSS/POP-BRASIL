@@ -28,8 +28,8 @@ export const VolumeIndicator = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   background-color: red;
   border-radius: 50%;
   top: 50%;
@@ -39,7 +39,7 @@ export const VolumeIndicator = styled.div`
   z-index: 99;
   box-shadow: 1px 1px 10px rgba(2, 19, 40, 0.9);
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   animation: rotate 0.2s linear infinite;
 
   @keyframes rotate {
