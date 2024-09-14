@@ -1,9 +1,13 @@
 import  { Install } from "./Btn_InstallStyles"
 
-const Btn_Install_app = () => {
+const Btn_Install_app = ({onClick}) => {
     return (
         <>
-            <Install>Instalar Aplicativo</Install>
+            <Install
+                onClick={onClick}
+            >
+                Instalar Aplicativo
+            </Install>
         </>
     )
 }

@@ -14,18 +14,22 @@ const Home = () => {
         // Verifica se o app está em modo standalone
         const checkStandalone = () => {
             setIsStandalone(window.matchMedia('(display-mode: standalone)').matches);
+            
         };
 
         checkStandalone();
 
         const handleBeforeInstallPrompt = (e) => {
-            e.preventDefault(); // Previne o comportamento padrão do prompt
+            // e.preventDefault(); // Previne o comportamento padrão do prompt
             setDeferredPrompt(e); // Armazena o evento
             setIsInstallable(true); // Exibe o botão de instalação
             console.log("Prompt de instalação capturado.");
+            console.log(isStandalone)
+            console.log(e)
         };
 
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        
 
         return () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -33,6 +37,7 @@ const Home = () => {
     }, []);
 
     const handleInstallClick = async () => {
+        console.log("Clicou no botão de instalação");
         if (deferredPrompt) {
             deferredPrompt.prompt(); // Exibe o prompt de instalação
             const { outcome } = await deferredPrompt.userChoice; // Aguarda a escolha do usuário
