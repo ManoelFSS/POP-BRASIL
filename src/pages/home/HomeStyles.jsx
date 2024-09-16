@@ -8,25 +8,37 @@ export const Container_home = styled.div`
     justify-content: center;
     align-items: center;
     min-height: 100svh;
-    padding: 0px 20px;
+    padding: 0px 10px;
 
+    .player {
+        position: relative;
 
-
-    .gif {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30%;
-        height:100px;
-        margin-top: 20px;
+        .gif {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width:100vw;
+            height:100px;
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            
+            z-index: 1;
         
-        img {
-            width: 100%;
-            height: 100%
-        }
-
-        @media (max-width: 908px) {
-            width: 100%;
+            img {
+                width: 90%;
+                height: 100%;
+            }
+                
+            @media (max-width: 768px) {
+                img {
+                    width: 100%;
+                }   
+            }
+            
         }
     }
+
+    
 `

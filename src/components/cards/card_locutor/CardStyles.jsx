@@ -10,6 +10,7 @@ export const Container_card_locutor = styled.div`
     background: rgba(0, 0, 0, 0.3);
     overflow: hidden;
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.8);
+    margin-top: 40px;
 
     
 

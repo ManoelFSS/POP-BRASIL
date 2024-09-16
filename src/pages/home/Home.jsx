@@ -57,13 +57,13 @@ const Home = () => {
             <Container_home>
                 <div className="player">
                     <Player audioSrc={MP3} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />
+                    <div className="gif">
+                        <img src={SomGif} alt="gif som animation" />
+                    </div>
                 </div>
-                <div className="gif">
-                    <img src={SomGif} alt="gif som animation" />
-                </div>
-
+                
                 <Card_Locutor />
-
+                
                 {/* Renderiza o botão de instalação apenas se não estiver em modo standalone e for instalável */}
                 {isInstallable && !isStandalone && (
                     <Btn_Install_app onClick={handleInstallClick} />
