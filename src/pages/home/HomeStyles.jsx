@@ -3,12 +3,26 @@ import styled from "styled-components";
 
 export const Container_home = styled.div`
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     min-height: 100svh;
-    padding: 0px 10px;
+    .header_title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        padding: 10px 0px;
+        
+        h1 {
+            font-size: 1.7rem;
+            color: #fff;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #aaa;
+        }
+    }
+    
 
     .player {
         position: relative;
@@ -18,9 +32,9 @@ export const Container_home = styled.div`
             justify-content: center;
             align-items: center;
             width:100vw;
-            height:250px;
+            height:220px;
             position: absolute;
-            top: 0%;
+            top: 10%;
             left: 50%;
             transform: translateX(-50%);
             pointer-events: none;
@@ -38,8 +52,19 @@ export const Container_home = styled.div`
                     width: 100%;
                 }   
             }
+
+            @media (max-width: 500px) {
+                top: -2%;
+            }
             
         }
+    }
+
+    .card_container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     

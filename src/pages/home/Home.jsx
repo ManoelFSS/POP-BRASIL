@@ -3,7 +3,9 @@ import { Container_home } from "./HomeStyles";
 import Btn_Install_app from "../../components/btn/Btn_Install_app";
 import Player from "../../components/player/Player";
 import Card_Locutor from "../../components/cards/card_locutor/Card_Locutor";
+import Header from "../../components/header/Header";
 import SomGif from "../../../public/somGif.gif";
+
 
 const Home = () => {
 
@@ -55,15 +57,21 @@ const Home = () => {
     return (
         <>
             <Container_home>
+                <Header />
+                <div className="header_title">
+                    <h1>POP BRASIL FM 93.7</h1>
+                    <p>Primeiro Lugar, em Todos os Lugares</p>
+                </div>
+
                 <div className="player">
                     <Player audioSrc={MP3} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />
                     <div className="gif">
                         <img src={SomGif} alt="gif som animation" />
                     </div>
                 </div>
-                
-                <Card_Locutor />
-                
+                <div className="card_container"> 
+                  <Card_Locutor />
+                </div>
                 {/* Renderiza o botão de instalação apenas se não estiver em modo standalone e for instalável */}
                 {isInstallable && !isStandalone && (
                     <Btn_Install_app onClick={handleInstallClick} />

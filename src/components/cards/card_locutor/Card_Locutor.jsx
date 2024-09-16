@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Container_card_locutor } from "./CardStyles"
-import { FaFacebookF, FaInstagram, FaWhatsapp, FaExpand, FaRegHeart, FaHeart  } from "react-icons/fa";
+import { FaExpand, FaRegHeart, FaHeart  } from "react-icons/fa";
+import SocialMidias from '../../socialMidea/SocialMidias';
 
 const Card_Locutor = () => {
 
@@ -22,11 +23,7 @@ const Card_Locutor = () => {
                 }
 
                 <img src="https://enlightenedaudio.com/wp-content/uploads/2023/03/Kate-1007x800.jpg" alt="Locutor" />
-                <div className="icones">
-                    <FaFacebookF className="facebook" />
-                    <FaInstagram className="instagram" />
-                    <FaWhatsapp className="whatsapp" />
-                </div>
+                <SocialMidias />
                 <div className="likes">
                     <h4>Curtidas</h4>
                     <p>1000</p>
