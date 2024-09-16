@@ -17,9 +17,9 @@ export const VolumeContainer = styled.div`
   align-items: center;
   background: conic-gradient(
     red ${(props) => props.$volume * 360}deg,
-    #2C609E ${(props) => props.$volume * 360}deg
+    #04375E ${(props) => props.$volume * 360}deg
   );
-  box-shadow: inset 2px 2px 16px rgba(3, 38, 83, 1), -4px -4px 20px rgba(87, 179, 255, 1),  5px 5px 30px 6px rgba(6, 0, 0, 1);
+  box-shadow:  -4px -4px 20px rgba(87, 179, 255, 0.8),  5px 5px 30px 6px rgba(6, 0, 0, 1);
   z-index: 99;
 `;
 
@@ -37,7 +37,7 @@ export const VolumeIndicator = styled.div`
   transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(119px);
   cursor: pointer;
   z-index: 99;
-  box-shadow: 1px 1px 10px rgba(2, 19, 40, 0.9);
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 1);
   color: #fff;
   font-size: 1.2rem;
   animation: rotate 0.2s linear infinite;
@@ -66,7 +66,6 @@ export const Container_img = styled.div`
     user-select: none;
     outline: none;
     pointer-events: none; /* Desabilita interações com o ponteiro */
-    box-shadow:  1px 2px 10px rgba(3, 38, 83, 1);
     overflow: hidden;
 `
 export const Btns = styled.div`
