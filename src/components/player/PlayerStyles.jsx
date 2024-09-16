@@ -19,7 +19,7 @@ export const VolumeContainer = styled.div`
     rgba(44, 44, 44, 0.5) ${(props) => props.$volume * 360}deg,
     #2C609E ${(props) => props.$volume * 360}deg
   );
-  box-shadow: inset 2px 2px 16px rgba(3, 38, 83, 0.5), -7px -7px 30px rgba(87, 179, 255, 0.5),  5px 8px 30px rgba(6, 22, 42, 1);
+  box-shadow: inset 2px 2px 16px rgba(3, 38, 83, 1), -4px -4px 20px rgba(87, 179, 255, 1),  5px 5px 20px rgba(6, 0, 0, 1);
   z-index: 99;
 `;
 

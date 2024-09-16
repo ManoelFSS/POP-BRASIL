@@ -18,13 +18,15 @@ export const Container_home = styled.div`
             justify-content: center;
             align-items: center;
             width:100vw;
-            height:180px;
+            height:250px;
             position: absolute;
-            top: 12%;
+            top: 0%;
             left: 50%;
             transform: translateX(-50%);
+            pointer-events: none;
+            user-select: none;
             
-            z-index: 1;
+            z-index: 0;
         
             img {
                 width: 90%;
