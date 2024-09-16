@@ -18,9 +18,9 @@ export const Container_home = styled.div`
             justify-content: center;
             align-items: center;
             width:100vw;
-            height:100px;
+            height:180px;
             position: absolute;
-            top: 25%;
+            top: 12%;
             left: 50%;
             transform: translateX(-50%);
             
