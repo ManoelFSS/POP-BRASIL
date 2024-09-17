@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container_card_locutor = styled.div`
     display: flex;
     width: 400px;
-    height: 135px;
+    height: 150px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.1);
     overflow: hidden;
@@ -17,8 +17,8 @@ export const Container_card_locutor = styled.div`
 
     .expand {
         position: absolute;
-        top: 6px;
-        right: 6px;
+        top: 10px;
+        right: 10px;
         width: 20px;
         height: 20px;
         transition: color 0.3s;
@@ -59,7 +59,7 @@ export const Container_card_locutor = styled.div`
 
         img {
             width: 100px;
-            height: 100px;
+            height: 115px;
             border-radius: 10px 0px 0px 0;
             
         }
@@ -89,12 +89,12 @@ export const Container_card_locutor = styled.div`
 
             h3 {
                 color: #fff;
-                font-size: 1rem;
+                font-size: 1.2rem;
             }
 
             p {
                 color: #aaa;
-                font-size: 0.9rem;
+                font-size: 1rem;
                 padding-top: 2px;
             }
         }
