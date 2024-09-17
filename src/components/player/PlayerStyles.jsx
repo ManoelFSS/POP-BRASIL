@@ -7,26 +7,25 @@ export const PlayerControls = styled.div`
   align-items: center;
   padding: 10px 0px 0px 0px ;
 
-   .socialMidias, .like_compartilhar_area {
-      display: flex;
-      gap: 30px;
+  .socialMidias, .like_compartilhar_area {
+    display: flex;
+    gap: 55px;
 
-      button {
-        width: 35px;
-        height: 35px;
+    button {
+      width: 35px;
+      height: 35px;
 
-        .icon {
-          font-size: 1rem;
-        }
-
+      .icon {
+        font-size: 1rem;
       }
+
     }
+  }
 
     .like_compartilhar_area {
       position: absolute;
-      top: 45%;
-      width: 400px;
-      border: 1px solid #04375E;
+      top: 60%;
+      width: 420px;
       justify-content: space-between;
 
       button{
@@ -34,8 +33,8 @@ export const PlayerControls = styled.div`
       }
     
       button:nth-child(1)::before {
-        content: "1000";
-        font-size: 0.8rem;
+        content: "${ props => props.$like }";
+        font-size: 0.7rem;
         color: #fff;
         position: absolute;
         top: 50px;
@@ -44,9 +43,9 @@ export const PlayerControls = styled.div`
   
       }
 
-      button:nth-child(2)::before {
+      button:nth-child(2)::after {
         content: "Compartilhar";
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         color: #fff;
         position: absolute;
         top: 50px;
@@ -55,12 +54,12 @@ export const PlayerControls = styled.div`
   
       }
 
-      @media (max-width: 500px) {
-        width: 320px;
+      @media (max-width: 460px) {
+        width: 300px;
       }
 
       @media (max-width: 360px) {
-        width: 270px;
+        width: 260px;
       }
 
     }
@@ -68,8 +67,8 @@ export const PlayerControls = styled.div`
 
 export const VolumeContainer = styled.div`
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: 290px;
+  height: 290px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -81,9 +80,14 @@ export const VolumeContainer = styled.div`
   box-shadow:  -4px -4px 20px rgba(87, 179, 255, 0.8),  5px 5px 30px 6px rgba(6, 0, 0, 1);
   z-index: 99;
 
-  @media (max-width: 500px) {
-    width: 180px;
-    height: 180px;
+  @media (max-width: 460px) {
+    width: 200px;
+    height: 200px;
+  }
+
+  @media (max-width: 360px) {
+    width: 160px;
+    height: 160px;
   }
 
 `;
@@ -99,7 +103,7 @@ export const VolumeIndicator = styled.div`
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(119px);
+  transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(135px);
   cursor: pointer;
   z-index: 99;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 1);
@@ -122,35 +126,43 @@ export const VolumeIndicator = styled.div`
     }
   }
 
-  @media (max-width: 500px) {
-
-    transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(86px);
+  @media (max-width: 460px) {
+    transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(95px);
     width: 25px;
     height: 25px;
     font-size: 1rem;
   }
 
+  @media (max-width: 360px) {
+    transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(75px);
+  }
+
 `;
 
 export const Container_img = styled.div`
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    z-index: 1;
-    user-select: none;
-    outline: none;
-    pointer-events: none; /* Desabilita interações com o ponteiro */
-    overflow: hidden;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  z-index: 1;
+  user-select: none;
+  outline: none;
+  pointer-events: none; /* Desabilita interações com o ponteiro */
+  overflow: hidden;
 
-    @media (max-width: 500px) {
-        width: 160px;
-        height: 160px;
-    }
+  @media (max-width: 460px) {
+    width: 180px;
+    height: 180px;
+  }
+
+  @media (max-width: 360px) {
+    width: 140px;
+    height: 140px;
+  }
+  
 `
 export const Btns = styled.div`
     display: flex;
     justify-content:center;
     gap: 50px;
     z-index: 99;
-   
 `

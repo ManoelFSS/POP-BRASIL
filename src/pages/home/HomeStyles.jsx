@@ -31,7 +31,7 @@ export const Container_home = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
-            width:100vw;
+            width: 100%;
             height:220px;
             position: absolute;
             top: 10%;
@@ -43,7 +43,7 @@ export const Container_home = styled.div`
             z-index: 0;
         
             img {
-                width: 90%;
+                width: 100%;
                 height: 100%;
             }
                 

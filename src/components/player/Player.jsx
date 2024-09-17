@@ -89,8 +89,7 @@ const Player = ({ audioSrc, albumCover }) => {
       onTouchEnd={handleMouseUp}
     >
       <audio ref={audioRef} src={audioSrc} />
-      <PlayerControls>
-
+      <PlayerControls $like={1000}>
         <VolumeContainer $volume={volume} ref={volumeContainerRef}>
           <Container_img style={{ background: ` #fff url(${albumCover}) no-repeat center / 80% 80%` }} />
 
@@ -102,12 +101,14 @@ const Player = ({ audioSrc, albumCover }) => {
           >
             <AiFillSound />
           </VolumeIndicator>
-        </VolumeContainer>
 
-        <div className="like_compartilhar_area">
+          <div className="like_compartilhar_area">
             <Btn_icon icon={<AiOutlineLike />} />
             <Btn_icon icon={<PiShareFatDuotone />} />
-        </div>
+          </div>
+        </VolumeContainer>
+
+        
 
         <div className="socialMidias">
             <Btn_icon icon={<FaFacebookF />} />
