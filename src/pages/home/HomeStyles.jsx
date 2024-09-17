@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Container_home = styled.div`
 
-    min-height: 100svh;
+     height: 100svh;
     .header_title {
         display: flex;
         flex-direction: column;

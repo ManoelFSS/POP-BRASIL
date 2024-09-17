@@ -5,8 +5,8 @@ export const ContainerHeader = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 80px;
-    padding: 0px 15px;
+    height: 85px;
+    padding: 0px 20px;
     border:solid 1px #04375E;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
