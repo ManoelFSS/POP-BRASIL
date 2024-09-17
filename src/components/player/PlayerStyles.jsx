@@ -42,8 +42,9 @@ export const VolumeContainer = styled.div`
    .like_compartilhar_area {
       position: absolute;
       top: 64%;
-      width: 430px;
+      width: 400px;
       justify-content: space-between;
+      border:solid 2px #04375E;
 
       button{
         position: relative;
@@ -51,38 +52,43 @@ export const VolumeContainer = styled.div`
     
       button:nth-child(1)::before {
         content: "${ props => props.$like }";
-        font-size: 0.7rem;
+        font-size: 0.9rem;
         color: #fff;
         position: absolute;
         top: 50px;
-        left: 8px;
+        left: 2px;
       
       }
 
       button:nth-child(2)::after {
         content: "Compartilhar";
-        font-size: 0.7rem;
+        font-size: 0.9rem;
         color: #fff;
         position: absolute;
         top: 50px;
-        left: -12px;
+        left: -18px;
        
   
       }
 
       @media (max-width: 460px) {
         width: 300px;
+
       }
 
       @media (max-width: 360px) {
         width: 270px;
+
+        button:nth-child(2)::after {
+            left: -30px;
+          }
       }
 
     }
 
   @media (max-width: 460px) {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
   }
 
   @media (max-width: 360px) {
@@ -127,7 +133,7 @@ export const VolumeIndicator = styled.div`
   }
 
   @media (max-width: 460px) {
-    transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(95px);
+    transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(90px);
     width: 25px;
     height: 25px;
     font-size: 1rem;
@@ -150,8 +156,8 @@ export const Container_img = styled.div`
   overflow: hidden;
 
   @media (max-width: 460px) {
-    width: 180px;
-    height: 180px;
+    width: 165px;
+    height: 165px;
   }
 
   @media (max-width: 360px) {

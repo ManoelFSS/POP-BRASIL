@@ -8,7 +8,7 @@ export const Container_social = styled.div`
     width: 100%;
     height: 35px;
     gap: 20px;
-    font-size: 1rem;
+    font-size: 1.4rem;
     color: #fff;
     background: rgba(0, 0, 0, 0.5);
 

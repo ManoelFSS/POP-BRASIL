@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container_card_locutor = styled.div`
     display: flex;
-    width: 300px;
+    width: 400px;
     height: 135px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.1);
@@ -10,6 +10,10 @@ export const Container_card_locutor = styled.div`
     box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.5);
     margin-top: 30px;
     position: relative;
+
+    @media (max-width: 500px) {
+        width: 100%;
+    }
 
     .expand {
         position: absolute;
@@ -61,7 +65,7 @@ export const Container_card_locutor = styled.div`
         }
         
         p {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: #aaa;
             font-weight: 700;
             text-align: center;

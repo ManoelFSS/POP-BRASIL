@@ -13,12 +13,12 @@ export const Container_home = styled.div`
         padding: 10px 0px; 
         
         h1 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #fff;
         }
 
         p {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #aaa;
         }
     }
