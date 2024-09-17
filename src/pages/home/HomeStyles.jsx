@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Container_home = styled.div`
 
-     height: 100svh;
+    height: 100svh;
     .header_title {
         display: flex;
         flex-direction: column;
@@ -73,7 +73,7 @@ export const Container_home = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px 10px 20px 10px;
+        padding: 0px 10px 20px 10px;
     }
 
     
