@@ -9,6 +9,7 @@ const Card_Locutor = () => {
 
     return (
         <Container_card_locutor>
+            <FaExpand className="expand" />
             <div className="card_left">
 
                 { like === false ?
@@ -21,16 +22,13 @@ const Card_Locutor = () => {
                         onClick={() => setLike(false)}
                     />
                 }
-
+                
                 <img src="https://enlightenedaudio.com/wp-content/uploads/2023/03/Kate-1007x800.jpg" alt="Locutor" />
-                <SocialMidias />
-                <div className="likes">
-                    <h4>Curtidas</h4>
-                    <p>1000</p>
-                </div>
+                
+                <p>1000</p>
+
             </div>
             <div className="card_right">
-                <FaExpand className="expand" />
                 <div className="locutor">
                     <h3>Locutora</h3>
                     <p>Lorena Souza Silva</p>
@@ -39,13 +37,7 @@ const Card_Locutor = () => {
                     <h3>Programa</h3>
                     <p>Fofocalizando</p>
                 </div>
-                <div className="descricao">
-                    <h3>Descrisção</h3>
-                    <p>
-                        Fofocalizando é um programa de rádio que se destaca por trazer as últimas notícias e polêmicas do universo das celebridades. Com uma abordagem leve e descontraída...
-                    </p>
-                </div>
-
+                <SocialMidias />
             </div>
         </Container_card_locutor>
     )

@@ -10,15 +10,15 @@ export const Container_home = styled.div`
         justify-content: center;
         align-items: center;
         gap: 5px;
-        padding: 10px 0px;
+        padding: 10px 0px; 
         
         h1 {
-            font-size: 1.7rem;
+            font-size: 1.2rem;
             color: #fff;
         }
 
         p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #aaa;
         }
     }

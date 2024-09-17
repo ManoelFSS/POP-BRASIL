@@ -10,14 +10,14 @@ export const PlayerControls = styled.div`
   .socialMidias, .like_compartilhar_area {
     display: flex;
     justify-content: center;
-    gap: 55px;
+    gap: 50px;
 
     button {
-      width: 35px;
-      height: 35px;
+      width: 40px;
+      height: 40px;
 
       .icon {
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
 
     }
@@ -41,8 +41,8 @@ export const VolumeContainer = styled.div`
 
    .like_compartilhar_area {
       position: absolute;
-      top: 60%;
-      width: 420px;
+      top: 64%;
+      width: 430px;
       justify-content: space-between;
 
       button{
@@ -55,9 +55,8 @@ export const VolumeContainer = styled.div`
         color: #fff;
         position: absolute;
         top: 50px;
-        left: 0;
-       
-  
+        left: 8px;
+      
       }
 
       button:nth-child(2)::after {
@@ -66,7 +65,7 @@ export const VolumeContainer = styled.div`
         color: #fff;
         position: absolute;
         top: 50px;
-        left: -18px;
+        left: -12px;
        
   
       }
@@ -76,7 +75,7 @@ export const VolumeContainer = styled.div`
       }
 
       @media (max-width: 360px) {
-        width: 260px;
+        width: 270px;
       }
 
     }

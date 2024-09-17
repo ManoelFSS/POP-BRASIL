@@ -2,22 +2,34 @@ import styled from "styled-components";
 
 export const Container_card_locutor = styled.div`
     display: flex;
-    justify-content: center;
-    max-width: 500px;
-    min-width: 290px;
-    height: 260px;
+    width: 300px;
+    height: 135px;
     border-radius: 10px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.1);
     overflow: hidden;
-    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.8);
-    margin-top: 40px;
+    box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
+    position: relative;
 
-    
+    .expand {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 20px;
+        height: 20px;
+        transition: color 0.3s;
+        cursor: pointer;
+        color: #fff;
+
+        &:hover {
+            color: red;
+        }
+    }
+
 
     .card_left {
-        background-color: #062034;
+        background: rgba(0, 0, 0, 0.5);
         position: relative;
-        border-radius: 10px ;
 
         .heart {
             position: absolute;
@@ -26,7 +38,7 @@ export const Container_card_locutor = styled.div`
             color: red;
             cursor: pointer;
             cursor: pointer;
-            font-size: 1.3rem;
+            font-size: 1rem;
             font-weight:bolder;
             animation: heart 0.5s infinite;
 
@@ -42,45 +54,34 @@ export const Container_card_locutor = styled.div`
         }
 
         img {
-            width: 120px;
-            height: 120px;
-            border-radius: 10px 10px 0 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 10px 0px 0px 0;
             
         }
-
         
-
-        .likes {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 70px;
-            gap: 8px;
-            color: #fff;
-     
-
-            h4 {
-                font-size: 1rem;
-            }
-
-            p {
-                font-size: 1rem;
-                color: #aaa;
-                font-weight: 700;
-            }
+        p {
+            font-size: 1rem;
+            color: #aaa;
+            font-weight: 700;
+            text-align: center;
+            padding-bottom: 5px;
+            padding-top: 5px;
         }
+        
 
     }
 
     .card_right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         position: relative;
-        padding: 0px 10px 0px 15px;
+        width: 100%;
 
-        .programa, .locutor, .descricao {
+        .programa, .locutor {
             
-            padding: 6px 0px;
+            padding: 6px 0px 0px 10px;
 
             h3 {
                 color: #fff;
@@ -91,30 +92,6 @@ export const Container_card_locutor = styled.div`
                 color: #aaa;
                 font-size: 0.9rem;
                 padding-top: 2px;
-            }
-        }
-
-        .descricao {
-            width: 100%;
-
-            p {
-                font-size: 0.9rem;
-                padding-top: 6px;
-            }
-        }
-
-        .expand {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 20px;
-            height: 20px;
-            transition: color 0.3s;
-            cursor: pointer;
-            color: #fff;
-
-            &:hover {
-                color: red;
             }
         }
     }

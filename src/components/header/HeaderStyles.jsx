@@ -5,7 +5,7 @@ export const ContainerHeader = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 85px;
+    height: 80px;
     padding: 0px 20px;
     border:solid 1px #04375E;
     background: rgba(0, 0, 0, 0.5);
@@ -31,7 +31,7 @@ export const ContainerHeader = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;  
+            gap: 20px;  
 
             .header_text {
                 display: flex;
@@ -46,14 +46,14 @@ export const ContainerHeader = styled.div`
                 }
 
                 p {
-                    font-size: 0.8rem;
+                    font-size: 1rem;
                     color: #aaa;
                 }
             }       
 
             img {
-                width: 55px;
-                height: 55px;
+                width: 50px;
+                height: 50px;
                 border-radius: 50%;
                 object-fit: cover;
             }

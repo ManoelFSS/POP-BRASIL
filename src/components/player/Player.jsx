@@ -108,8 +108,6 @@ const Player = ({ audioSrc, albumCover }) => {
           </div>
         </VolumeContainer>
 
-        
-
         <div className="socialMidias">
             <Btn_icon icon={<FaFacebookF />} />
             <Btn_icon icon={<FaInstagram />} />

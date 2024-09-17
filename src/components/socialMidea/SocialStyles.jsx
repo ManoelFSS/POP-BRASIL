@@ -1,16 +1,16 @@
 import styled from "styled-components";
 
 export const Container_social = styled.div`
-   
+    
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 60px;
-    gap: 10px;
-    font-size: 1.7rem;
+    height: 35px;
+    gap: 20px;
+    font-size: 1rem;
     color: #fff;
-
+    background: rgba(0, 0, 0, 0.5);
 
     .facebook, .instagram, .whatsapp {
         cursor: pointer;
