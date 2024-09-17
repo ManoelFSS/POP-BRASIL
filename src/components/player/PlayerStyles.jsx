@@ -39,12 +39,11 @@ export const VolumeContainer = styled.div`
   box-shadow:  -4px -4px 20px rgba(87, 179, 255, 0.8),  5px 5px 30px 6px rgba(6, 0, 0, 1);
   z-index: 99;
 
-   .like_compartilhar_area {
+    .like_compartilhar_area {
       position: absolute;
       top: 64%;
       width: 400px;
       justify-content: space-between;
-      border:solid 2px #04375E;
 
       button{
         position: relative;
@@ -67,12 +66,10 @@ export const VolumeContainer = styled.div`
         position: absolute;
         top: 50px;
         left: -18px;
-       
-  
       }
 
       @media (max-width: 460px) {
-        width: 300px;
+        width: 310px;
 
       }
 
