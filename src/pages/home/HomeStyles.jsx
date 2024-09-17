@@ -33,6 +33,7 @@ export const Container_home = styled.div`
 
     .player {
         position: relative;
+        width: 100%;
 
         .gif {
             display: flex;

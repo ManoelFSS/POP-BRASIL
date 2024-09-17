@@ -72,6 +72,7 @@ export const Container_card_locutor = styled.div`
             padding-bottom: 5px;
             padding-top: 5px;
             padding-left: 10px;
+            
         }
         
 
