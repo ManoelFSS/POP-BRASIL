@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ContainerHeader = styled.div`
     display: flex;
-    position: fixed;
+    z-index: 102;
     top: 0;
     left: 0;
     justify-content: center;
