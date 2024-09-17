@@ -6,11 +6,13 @@ export const PlayerControls = styled.div`
   gap: 30px;
   align-items: center;
   padding: 10px 0px 0px 0px ;
+  position: relative;
 
-  .socialMidias, .like_compartilhar_area {
+
+  .socialMidias {
     display: flex;
     justify-content: center;
-    gap: 50px;
+    gap: 25px;
 
     button {
       width: 40px;
@@ -21,13 +23,39 @@ export const PlayerControls = styled.div`
       }
 
     }
+  }
+
+  .like_compartilhar_area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding-top:10px;
+
+    .btn_icon {
+    
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      min-width: 90px;
+
+      p {
+        font-size: 0.9rem;
+        color: #fff;
+      }
+    }
+  
+  }
 
 `;
 
 export const VolumeContainer = styled.div`
   position: relative;
-  width: 290px;
-  height: 290px;
+  width: 270px;
+  height: 270px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -38,50 +66,6 @@ export const VolumeContainer = styled.div`
   );
   box-shadow:  -4px -4px 20px rgba(87, 179, 255, 0.8),  5px 5px 30px 6px rgba(6, 0, 0, 1);
   z-index: 99;
-
-    .like_compartilhar_area {
-      position: absolute;
-      top: 64%;
-      width: 400px;
-      justify-content: space-between;
-
-      button{
-        position: relative;
-      }
-    
-      button:nth-child(1)::before {
-        content: "${ props => props.$like }";
-        font-size: 0.9rem;
-        color: #fff;
-        position: absolute;
-        top: 50px;
-        left: 2px;
-      
-      }
-
-      button:nth-child(2)::after {
-        content: "Compartilhar";
-        font-size: 0.9rem;
-        color: #fff;
-        position: absolute;
-        top: 50px;
-        left: -18px;
-      }
-
-      @media (max-width: 460px) {
-        width: 310px;
-
-      }
-
-      @media (max-width: 360px) {
-        width: 270px;
-
-        button:nth-child(2)::after {
-            left: -30px;
-          }
-      }
-
-    }
 
   @media (max-width: 460px) {
     width: 180px;
@@ -106,7 +90,7 @@ export const VolumeIndicator = styled.div`
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(135px);
+  transform: translate(-50%, -50%) rotate(${(props) => (props.$volume * 360) - 90}deg) translate(130px);
   cursor: pointer;
   z-index: 99;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 1);
@@ -143,8 +127,8 @@ export const VolumeIndicator = styled.div`
 `;
 
 export const Container_img = styled.div`
-  width: 260px;
-  height: 260px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
   z-index: 1;
   user-select: none;
@@ -153,8 +137,8 @@ export const Container_img = styled.div`
   overflow: hidden;
 
   @media (max-width: 460px) {
-    width: 165px;
-    height: 165px;
+    width: 160px;
+    height: 160px;
   }
 
   @media (max-width: 360px) {
@@ -166,6 +150,6 @@ export const Container_img = styled.div`
 export const Btns = styled.div`
     display: flex;
     justify-content:center;
-    gap: 50px;
+    gap: 60px;
     z-index: 99;
 `

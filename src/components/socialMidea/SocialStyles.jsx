@@ -7,7 +7,7 @@ export const Container_social = styled.div`
     align-items: center;
     width: 100%;
     height: 35px;
-    gap: 30px;
+    gap: 35px;
     font-size: 1.4rem;
     color: #fff;
     background: rgba(0, 0, 0, 0.5);

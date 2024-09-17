@@ -3,7 +3,7 @@ import { PlayerControls, VolumeContainer, VolumeIndicator, Container_img, Btns }
 
 import { FaPlay, FaPause, FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { AiFillSound,  AiOutlineLike } from "react-icons/ai";
-
+import { FaYoutube } from "react-icons/fa6";
 
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import { PiShareFatDuotone } from "react-icons/pi";
@@ -89,8 +89,8 @@ const Player = ({ audioSrc, albumCover }) => {
       onTouchEnd={handleMouseUp}
     >
       <audio ref={audioRef} src={audioSrc} />
-      <PlayerControls >
-        <VolumeContainer $volume={volume} ref={volumeContainerRef} $like={1000}>
+      <PlayerControls $like={1000} >
+        <VolumeContainer $volume={volume} ref={volumeContainerRef}>
           <Container_img style={{ background: ` #fff url(${albumCover}) no-repeat center / 80% 80%` }} />
 
           <VolumeIndicator
@@ -101,19 +101,33 @@ const Player = ({ audioSrc, albumCover }) => {
           >
             <AiFillSound />
           </VolumeIndicator>
-
-          <div className="like_compartilhar_area">
-            <Btn_icon icon={<AiOutlineLike />} />
-            <Btn_icon icon={<PiShareFatDuotone />} />
-          </div>
         </VolumeContainer>
+
+        <div className="like_compartilhar_area">
+
+          <div className='btn_icon'>
+            <Btn_icon icon={<AiOutlineLike />} />
+            <p>1000</p>
+          </div>
+
+          <div className='btn_icon' >
+            <Btn_icon icon={<FaWhatsapp />} />
+            <p>Pedir Musica</p>
+          </div>
+          
+          <div className='btn_icon'>
+            <Btn_icon icon={<PiShareFatDuotone />} />
+            <p>Compartilhar</p>
+          </div>
+          
+        </div>
 
         <div className="socialMidias">
             <Btn_icon icon={<FaFacebookF />} />
             <Btn_icon icon={<FaInstagram />} />
-            <Btn_icon icon={<FaWhatsapp />} />
+            <Btn_icon icon={<FaYoutube />} />
         </div>
-          
+
         <Btns>
           <Btn_icon icon={<TbPlayerTrackPrevFilled />} onClick={handlePlayPause} />
           <Btn_icon icon={isPlaying ? <FaPause style={{ color: "red" }} /> : <FaPlay />} onClick={handlePlayPause} />

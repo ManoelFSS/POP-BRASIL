@@ -17,7 +17,7 @@ export const Container_home = styled.div`
         justify-content: center;
         align-items: center;
         gap: 5px;
-        padding: 10px 0px; 
+        
         
         h1 {
             font-size: 1.3rem;
@@ -81,7 +81,8 @@ export const Container_home = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0px 10px 20px 10px;
+        padding-bottom:20px;
+        
     }
 
     

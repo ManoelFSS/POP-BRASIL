@@ -8,7 +8,6 @@ export const Container_card_locutor = styled.div`
     background: rgba(255, 255, 255, 0.1);
     overflow: hidden;
     box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.5);
-    margin-top: 30px;
     position: relative;
 
     @media (max-width: 500px) {
