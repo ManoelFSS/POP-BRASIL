@@ -58,7 +58,7 @@ export const Container_card_locutor = styled.div`
         }
 
         img {
-            width: 100px;
+            width: 120px;
             height: 115px;
             border-radius: 10px 0px 0px 0;
             
