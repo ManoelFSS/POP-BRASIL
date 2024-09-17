@@ -37,7 +37,7 @@ export const Container_card_locutor = styled.div`
 
         .heart {
             position: absolute;
-            top: 8px;
+            bottom: 2px;
             left: 8px;
             color: red;
             cursor: pointer;
@@ -71,6 +71,7 @@ export const Container_card_locutor = styled.div`
             text-align: center;
             padding-bottom: 5px;
             padding-top: 5px;
+            padding-left: 10px;
         }
         
 
