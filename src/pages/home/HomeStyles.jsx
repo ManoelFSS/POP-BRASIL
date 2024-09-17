@@ -68,5 +68,13 @@ export const Container_home = styled.div`
         padding: 0px 20px;
     }
 
+    .install {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 10px 20px 10px;
+    }
+
     
 `

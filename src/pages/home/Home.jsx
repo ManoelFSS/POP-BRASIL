@@ -70,12 +70,14 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="card_container"> 
-                  <Card_Locutor />
+                    <Card_Locutor />
                 </div>
-                {/* Renderiza o botão de instalação apenas se não estiver em modo standalone e for instalável */}
-                {isInstallable && !isStandalone && (
-                    <Btn_Install_app onClick={handleInstallClick} />
-                )}
+                <div className="install">
+                    {isInstallable && !isStandalone && (
+                        <Btn_Install_app onClick={handleInstallClick} />
+                    )}
+                </div>
+                
             </Container_home>
         </>
     );

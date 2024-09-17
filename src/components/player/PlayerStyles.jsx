@@ -9,6 +9,7 @@ export const PlayerControls = styled.div`
 
   .socialMidias, .like_compartilhar_area {
     display: flex;
+    justify-content: center;
     gap: 55px;
 
     button {
@@ -20,9 +21,25 @@ export const PlayerControls = styled.div`
       }
 
     }
-  }
 
-    .like_compartilhar_area {
+`;
+
+export const VolumeContainer = styled.div`
+  position: relative;
+  width: 290px;
+  height: 290px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: conic-gradient(
+    red ${(props) => props.$volume * 360}deg,
+    #04375E ${(props) => props.$volume * 360}deg
+  );
+  box-shadow:  -4px -4px 20px rgba(87, 179, 255, 0.8),  5px 5px 30px 6px rgba(6, 0, 0, 1);
+  z-index: 99;
+
+   .like_compartilhar_area {
       position: absolute;
       top: 60%;
       width: 420px;
@@ -63,22 +80,6 @@ export const PlayerControls = styled.div`
       }
 
     }
-`;
-
-export const VolumeContainer = styled.div`
-  position: relative;
-  width: 290px;
-  height: 290px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: conic-gradient(
-    red ${(props) => props.$volume * 360}deg,
-    #04375E ${(props) => props.$volume * 360}deg
-  );
-  box-shadow:  -4px -4px 20px rgba(87, 179, 255, 0.8),  5px 5px 30px 6px rgba(6, 0, 0, 1);
-  z-index: 99;
 
   @media (max-width: 460px) {
     width: 200px;

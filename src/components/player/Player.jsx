@@ -89,8 +89,8 @@ const Player = ({ audioSrc, albumCover }) => {
       onTouchEnd={handleMouseUp}
     >
       <audio ref={audioRef} src={audioSrc} />
-      <PlayerControls $like={1000}>
-        <VolumeContainer $volume={volume} ref={volumeContainerRef}>
+      <PlayerControls >
+        <VolumeContainer $volume={volume} ref={volumeContainerRef} $like={1000}>
           <Container_img style={{ background: ` #fff url(${albumCover}) no-repeat center / 80% 80%` }} />
 
           <VolumeIndicator
