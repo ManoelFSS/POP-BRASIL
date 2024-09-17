@@ -42,7 +42,7 @@ export const Container_card_locutor = styled.div`
             color: red;
             cursor: pointer;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.5rem;
             font-weight:bolder;
             animation: heart 0.5s infinite;
 
