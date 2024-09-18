@@ -74,7 +74,6 @@ const Home = () => {
 
                 </div>
 
-
                 <div className="player">
                     <Player audioSrc={MP3} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />
                     <div className="gif">

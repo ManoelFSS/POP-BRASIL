@@ -58,9 +58,9 @@ export const Container_home = styled.div`
             justify-content: center;
             align-items: center;
             width: 100%;
-            height:220px;
+            height:300px;
             position: absolute;
-            top: 10%;
+            top: 0%;
             left: 50%;
             transform: translateX(-50%);
             pointer-events: none;
@@ -77,10 +77,6 @@ export const Container_home = styled.div`
                 img {
                     width: 100%;
                 }   
-            }
-
-            @media (max-width: 500px) {
-                top: -2%;
             }
             
         }
