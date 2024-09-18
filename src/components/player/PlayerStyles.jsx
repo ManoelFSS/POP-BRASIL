@@ -9,22 +9,6 @@ export const PlayerControls = styled.div`
   position: relative;
 
 
-  .socialMidias {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-
-    button {
-      width: 40px;
-      height: 40px;
-
-      .icon {
-        font-size: 1.2rem;
-      }
-
-    }
-  }
-
   .like_compartilhar_area {
     display: flex;
     align-items: center;

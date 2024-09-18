@@ -29,6 +29,24 @@ export const Container_home = styled.div`
             color: #aaa;
         }
     }
+
+    
+    .socialMidias {
+        display: flex;
+        justify-content: center;
+        gap: 65px;
+        padding-top: 20px;
+
+        button {
+        width: 40px;
+        height: 40px;
+
+        .icon {
+            font-size: 1.2rem;
+        }
+
+        }
+    }
     
 
     .player {

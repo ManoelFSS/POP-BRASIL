@@ -5,6 +5,10 @@ import Player from "../../components/player/Player";
 import Card_Locutor from "../../components/cards/card_locutor/Card_Locutor";
 import Header from "../../components/header/Header";
 import SomGif from "../../../public/somGif.gif";
+import Btn_icon from "../../components/btn/Btn_Icon";
+
+import {FaFacebookF, FaInstagram} from 'react-icons/fa';
+import { FaYoutube } from "react-icons/fa6";
 
 
 const Home = () => {
@@ -61,7 +65,15 @@ const Home = () => {
                 <div className="header_title">
                     <h1>POP BRASIL FM 93.7</h1>
                     <p>Primeiro Lugar, em Todos os Lugares</p>
+
+                    <div className="socialMidias">
+                        <Btn_icon icon={<FaFacebookF />} />
+                        <Btn_icon icon={<FaInstagram />} />
+                        <Btn_icon icon={<FaYoutube />} />
+                    </div>
+
                 </div>
+
 
                 <div className="player">
                     <Player audioSrc={MP3} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />

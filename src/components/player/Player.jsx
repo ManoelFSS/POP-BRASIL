@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PlayerControls, VolumeContainer, VolumeIndicator, Container_img, Btns } from './PlayerStyles';
 
-import { FaPlay, FaPause, FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { FaPlay, FaPause, FaWhatsapp } from 'react-icons/fa';
 import { AiFillSound,  AiOutlineLike } from "react-icons/ai";
-import { FaYoutube } from "react-icons/fa6";
+
 
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import { PiShareFatDuotone } from "react-icons/pi";
@@ -103,6 +103,12 @@ const Player = ({ audioSrc, albumCover }) => {
           </VolumeIndicator>
         </VolumeContainer>
 
+        <Btns>
+          <Btn_icon icon={<TbPlayerTrackPrevFilled />} onClick={handlePlayPause} />
+          <Btn_icon icon={isPlaying ? <FaPause style={{ color: "red" }} /> : <FaPlay />} onClick={handlePlayPause} />
+          <Btn_icon icon={<TbPlayerTrackNextFilled />} onClick={handlePlayPause} />
+        </Btns>
+
         <div className="like_compartilhar_area">
 
           <div className='btn_icon'>
@@ -122,17 +128,6 @@ const Player = ({ audioSrc, albumCover }) => {
           
         </div>
 
-        <div className="socialMidias">
-            <Btn_icon icon={<FaFacebookF />} />
-            <Btn_icon icon={<FaInstagram />} />
-            <Btn_icon icon={<FaYoutube />} />
-        </div>
-
-        <Btns>
-          <Btn_icon icon={<TbPlayerTrackPrevFilled />} onClick={handlePlayPause} />
-          <Btn_icon icon={isPlaying ? <FaPause style={{ color: "red" }} /> : <FaPlay />} onClick={handlePlayPause} />
-          <Btn_icon icon={<TbPlayerTrackNextFilled />} onClick={handlePlayPause} />
-        </Btns>
       </PlayerControls>
     </div>
   );
