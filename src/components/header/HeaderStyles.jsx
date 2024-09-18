@@ -10,9 +10,9 @@ export const ContainerHeader = styled.div`
     width: 100%;
     min-height: 80px;
     padding: 0px 20px;
-    border:solid 1px #04375E;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(20, 0, 0, 0.3);
     backdrop-filter: blur(10px);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
 
     .menu_icon {
         width: 40px;
