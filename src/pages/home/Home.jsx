@@ -58,6 +58,23 @@ const Home = () => {
         }
     };
 
+    const handleShare = async () => {
+    if (navigator.share) {
+        try {
+        await navigator.share({
+            title: 'Radio Pop Brasil',
+            text: 'Primeiro Lugar, em Todos os Lugares!',
+            url: 'https://pop-brasil.vercel.app/', // URL do seu app
+        });
+        console.log('Link compartilhado com sucesso');
+        } catch (error) {
+        console.error('Erro ao compartilhar:', error);
+        }
+    } else {
+        alert('Compartilhamento não suportado no seu dispositivo.');
+    }
+    };
+
     const MP3 = import.meta.env.VITE_MP3_RADIO
 
     return (
@@ -99,7 +116,7 @@ const Home = () => {
                     </div>
 
                     <div className='btn_icon'>
-                        <Btn_icon icon={<PiShareFatDuotone />} />
+                        <Btn_icon icon={<PiShareFatDuotone onClick={handleShare} />} />
                         <p>Compartilhar</p>
                     </div>
                     
