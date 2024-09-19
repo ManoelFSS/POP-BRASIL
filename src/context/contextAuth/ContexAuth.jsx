@@ -26,6 +26,9 @@ export const AuthProvider = ({ children }) => { // exportando a funçao que fara
 
  
   const signInGoogle = () => {
+
+    event.preventDefault()
+    
     getUsers()
     const auth = getAuth(app);
 
