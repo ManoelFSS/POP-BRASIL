@@ -101,6 +101,7 @@ export const Container_home = styled.div`
         justify-content: center;
         align-items: center;
         gap: 30px;
+        padding-top: 30px;
 
         .btn_icon {
         

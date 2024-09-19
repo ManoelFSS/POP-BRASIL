@@ -104,9 +104,9 @@ const Player = ({ audioSrc, albumCover }) => {
         </VolumeContainer>
 
         <Btns>
-          <Btn_icon icon={<TbPlayerTrackPrevFilled />} onClick={handlePlayPause} />
+          {/* <Btn_icon icon={<TbPlayerTrackPrevFilled />} onClick={handlePlayPause} /> */}
           <Btn_icon icon={isPlaying ? <FaPause style={{ color: "red" }} /> : <FaPlay />} onClick={handlePlayPause} />
-          <Btn_icon icon={<TbPlayerTrackNextFilled />} onClick={handlePlayPause} />
+          {/* <Btn_icon icon={<TbPlayerTrackNextFilled />} onClick={handlePlayPause} /> */}
         </Btns>
 
       </PlayerControls>

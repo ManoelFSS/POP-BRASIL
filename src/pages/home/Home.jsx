@@ -99,9 +99,9 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="card_container"> 
+                {/* <div className="card_container"> 
                     <Card_Locutor />
-                </div>
+                </div> */}
 
                 <div className="like_compartilhar_area">
                     
@@ -111,7 +111,7 @@ const Home = () => {
                     </div>
 
                     <div className='btn_icon' >
-                        <Btn_icon icon={<FaWhatsapp />} />
+                        <a href="https://wa.me/5587996076111" target="_blank"> <Btn_icon icon={<FaWhatsapp />} /> </a>
                         <p>Pedir Musica</p>
                     </div>
 
@@ -122,11 +122,11 @@ const Home = () => {
                     
                 </div>
 
-                {/* <div className="install">
+                <div className="install">
                     {isInstallable && !isStandalone && (
                         <Btn_Install_app onClick={handleInstallClick} />
                     )}
-                </div> */}
+                </div>
                 
             </Container_home>
         </>

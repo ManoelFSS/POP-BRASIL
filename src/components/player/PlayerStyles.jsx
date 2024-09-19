@@ -113,7 +113,7 @@ export const Btns = styled.div`
   z-index: 99;
   padding-top: 10px;
 
-  button:nth-child(2) {
+  button:nth-child(1) {
     height: 60px;
     width: 60px;
   }
