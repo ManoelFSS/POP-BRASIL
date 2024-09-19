@@ -27,11 +27,11 @@ const Header = () => {
                             {/* <p className="login">Sair</p> */}
                         </>
                     ) : <p 
-                            onClick={signInGoogle} 
+                            onClickCapture={(e) => { e.preventDefault(), signInGoogle()}} 
                             className="login"
                             > Login</p>
                     }
-                    
+
                     <img 
                         src={photo ? photo : Perfil} 
                         alt="foto do usuário"
