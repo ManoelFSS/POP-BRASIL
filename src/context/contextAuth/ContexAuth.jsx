@@ -26,73 +26,40 @@ const getUsers = async () => {
 }
 
 const signInGoogle = () => {
-    getUsers()
+    getUsers();
     const auth = getAuth(app);
 
-    if(User === null){
-        
-    auth.signInWithRedirect(provider)
+    signInWithPopup(auth, provider)
         .then((result) => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
             const user = result.user;
-            createUser(user.providerData[0])
-            getUsers()
-        }).catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.customData.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-        });
 
-    }else{
+            let checkedUser = false;
 
-        console.log(User) 
-
-        signInWithPopup(auth, provider)
-
-        .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const user = result.user;
-
-        let checkedUser = false
-
-        if(User){
-            setAuth(null)
-            getUsers()
-
-            User.map((e)=> {
-                if(e.email === user.providerData[0].email && e.token === user.providerData[0].uid){
-                    console.log("usuario ja exite")
-                    setAuth(e.adm)
-                    localStorage.setItem("User", JSON.stringify(e.adm))
-                    localStorage.setItem("photo", JSON.stringify(user.providerData[0].photoURL))
-                    localStorage.setItem("UserName", JSON.stringify(user.providerData[0].displayName))
-                    console.log(User[0].adm)
-                    checkedUser = true
+            User.forEach((e) => {
+                if (e.email === user.providerData[0].email && e.token === user.providerData[0].uid) {
+                    setAuth(e.adm);
+                    localStorage.setItem("User", JSON.stringify(e.adm));
+                    localStorage.setItem("photo", JSON.stringify(user.providerData[0].photoURL));
+                    localStorage.setItem("UserName", JSON.stringify(user.providerData[0].displayName));
+                    checkedUser = true;
                 }
-            })
-        }
-            if(!checkedUser){
-                createUser(user.providerData[0])
-                console.log("new usuario")
-                setAuth(false)
-                localStorage.setItem("token", JSON.stringify(false))
-                localStorage.setItem("photo", JSON.stringify(user.providerData[0].photoURL))
-                localStorage.setItem("UserName", JSON.stringify(user.providerData[0].displayName))
-                checkedUser = false
+            });
+
+            if (!checkedUser) {
+                createUser(user.providerData[0]);
+                setAuth(false);
+                localStorage.setItem("User", JSON.stringify(false));
+                localStorage.setItem("photo", JSON.stringify(user.providerData[0].photoURL));
+                localStorage.setItem("UserName", JSON.stringify(user.providerData[0].displayName));
             }
 
-            getUsers()
-        }).catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                const email = error.customData.email;
-                const credential = GoogleAuthProvider.credentialFromError(error);
+            getUsers();
+        })
+        .catch((error) => {
+            // Trate erros aqui
         });
-    }
-}
+};
 
 async function createUser(user){
     
