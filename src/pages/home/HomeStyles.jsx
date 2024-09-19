@@ -100,7 +100,7 @@ export const Container_home = styled.div`
         align-items: center;
         justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap: 30px;
 
         .btn_icon {
         
@@ -115,6 +115,10 @@ export const Container_home = styled.div`
                 font-size: 0.9rem;
                 color: #fff;
             }
+        }
+
+        @media (max-width: 360px) {
+            gap: 10px;
         }
     
     }
