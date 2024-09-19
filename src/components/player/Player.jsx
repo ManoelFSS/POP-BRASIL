@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PlayerControls, VolumeContainer, VolumeIndicator, Container_img, Btns } from './PlayerStyles';
 
-import { FaPlay, FaPause, FaWhatsapp } from 'react-icons/fa';
-import { AiFillSound,  AiOutlineLike } from "react-icons/ai";
+import { FaPlay, FaPause } from 'react-icons/fa';
+import { AiFillSound } from "react-icons/ai";
 
 
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-import { PiShareFatDuotone } from "react-icons/pi";
+
 
 import Btn_icon from "../btn/Btn_Icon";
 
@@ -108,25 +108,6 @@ const Player = ({ audioSrc, albumCover }) => {
           <Btn_icon icon={isPlaying ? <FaPause style={{ color: "red" }} /> : <FaPlay />} onClick={handlePlayPause} />
           <Btn_icon icon={<TbPlayerTrackNextFilled />} onClick={handlePlayPause} />
         </Btns>
-
-        <div className="like_compartilhar_area">
-
-          <div className='btn_icon'>
-            <Btn_icon icon={<AiOutlineLike />} />
-            <p>1000</p>
-          </div>
-
-          <div className='btn_icon' >
-            <Btn_icon icon={<FaWhatsapp />} />
-            <p>Pedir Musica</p>
-          </div>
-          
-          <div className='btn_icon'>
-            <Btn_icon icon={<PiShareFatDuotone />} />
-            <p>Compartilhar</p>
-          </div>
-          
-        </div>
 
       </PlayerControls>
     </div>

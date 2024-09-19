@@ -7,8 +7,10 @@ import Header from "../../components/header/Header";
 import SomGif from "../../../public/somGif.gif";
 import Btn_icon from "../../components/btn/Btn_Icon";
 
-import {FaFacebookF, FaInstagram} from 'react-icons/fa';
+import {FaFacebookF, FaInstagram, FaWhatsapp} from 'react-icons/fa';
 import { FaYoutube } from "react-icons/fa6";
+import { AiOutlineLike } from "react-icons/ai";
+import { PiShareFatDuotone } from "react-icons/pi";
 
 
 const Home = () => {
@@ -62,32 +64,52 @@ const Home = () => {
         <>
             <Container_home>
                 <Header />
-                <div className="header_title">
+                <div className="top_home">
                     <h1>POP BRASIL FM 93.7</h1>
                     <p>Primeiro Lugar, em Todos os Lugares</p>
 
                     <div className="socialMidias">
-                        <Btn_icon icon={<FaFacebookF />} />
-                        <Btn_icon icon={<FaInstagram />} />
-                        <Btn_icon icon={<FaYoutube />} />
+                        <a href="https://www.facebook.com/radiopopbrasilfm/?locale=pt_BR" target="_blank">  <Btn_icon icon={<FaFacebookF />} /> </a>
+                        <a href="https://www.instagram.com/radio.popbrasilfm/" target="_blank"> <Btn_icon icon={<FaInstagram />} /> </a> 
+                        <a href="https://www.youtube.com/watch?v=ynJgNmBXL6I" target="_blank"> <Btn_icon icon={<FaYoutube />} /> </a>
                     </div>
-
                 </div>
 
-                <div className="player">
+                <div className="center_home">
                     <Player audioSrc={MP3} albumCover={"https://img.radios.com.br/radio/lg/radio34301_1719839328.png"} />
                     <div className="gif">
                         <img src={SomGif} alt="gif som animation" />
                     </div>
                 </div>
+
                 <div className="card_container"> 
                     <Card_Locutor />
                 </div>
-                <div className="install">
+
+                <div className="like_compartilhar_area">
+                    
+                    <div className='btn_icon'>
+                        <Btn_icon icon={<AiOutlineLike />} />
+                        <p>1000</p>
+                    </div>
+
+                    <div className='btn_icon' >
+                        <Btn_icon icon={<FaWhatsapp />} />
+                        <p>Pedir Musica</p>
+                    </div>
+
+                    <div className='btn_icon'>
+                        <Btn_icon icon={<PiShareFatDuotone />} />
+                        <p>Compartilhar</p>
+                    </div>
+                    
+                </div>
+
+                {/* <div className="install">
                     {isInstallable && !isStandalone && (
                         <Btn_Install_app onClick={handleInstallClick} />
                     )}
-                </div>
+                </div> */}
                 
             </Container_home>
         </>

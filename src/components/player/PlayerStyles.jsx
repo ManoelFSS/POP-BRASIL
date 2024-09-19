@@ -9,31 +9,6 @@ export const PlayerControls = styled.div`
   position: relative;
 
 
-  .like_compartilhar_area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding-top:10px;
-
-    .btn_icon {
-    
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      min-width: 90px;
-
-      p {
-        font-size: 0.9rem;
-        color: #fff;
-      }
-    }
-  
-  }
-
 `;
 
 export const VolumeContainer = styled.div`
@@ -132,8 +107,16 @@ export const Container_img = styled.div`
   
 `
 export const Btns = styled.div`
-    display: flex;
-    justify-content:center;
-    gap: 60px;
-    z-index: 99;
+  display: flex;
+  justify-content:center;
+  gap: 60px;
+  z-index: 99;
+  padding-top: 10px;
+
+  button:nth-child(2) {
+    height: 60px;
+    width: 60px;
+  }
+
+  
 `
