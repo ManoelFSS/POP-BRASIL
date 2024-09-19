@@ -36,6 +36,18 @@ export const ContainerHeader = styled.div`
             align-items: center;
             gap: 20px;  
 
+            .login {
+                color: #fff;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: color 0.3s;
+                padding-left: 10px;
+
+                &:hover {
+                    color: red;
+                }
+            }
+
             .header_text {
                 display: flex;
                 flex-direction: column;

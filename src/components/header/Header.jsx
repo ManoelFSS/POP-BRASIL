@@ -1,21 +1,45 @@
-import { ContainerHeader } from "./HeaderStyles"
+import { ContainerHeader } from "./HeaderStyles";
 import { IoMenu } from "react-icons/io5";
+import { useAuthContext } from "../../context/contextAuth/ContexAuth";
+import Perfil from "../../../public/perfil.jpg";
 
 const Header = () => {
+    const { signInGoogle, auths } = useAuthContext();
+
+    // Recupera e analisa os dados do localStorage
+    const photo = JSON.parse(localStorage.getItem("photo"));
+    const displayName = JSON.parse(localStorage.getItem("UserName"));
+
+    // Verifica se displayName não é nulo ou undefined antes de tentar usar split
+    const name = displayName ? displayName.split(' ')[0] : '';
+
     return (
         <ContainerHeader>
             <div className="header_area">
                 <IoMenu className="menu_icon" />
                 <div className="header_area_right">
-                    <div className="header_text">
-                        <h3>Sejá bem vindo(a)</h3>
-                        <p>Mikaelly souza</p>
-                    </div>
-                    <img src="data:image/jpeg;base64,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" alt="Logo" /> 
+                    {displayName ? (
+                        <>
+                            <div className="header_text">
+                                <h3>Seja bem-vindo(a)</h3>
+                                <p>{name}</p>
+                            </div>
+                            {/* <p className="login">Sair</p> */}
+                        </>
+                    ) : <p 
+                            onClick={signInGoogle} 
+                            className="login"
+                            > Login</p>
+                    }
+                    
+                    <img 
+                        src={photo ? photo : Perfil} 
+                        alt="foto do usuário"
+                    />
                 </div> 
             </div>
         </ContainerHeader>
-    )
+    );
 }
 
-export default Header
+export default Header;
