@@ -24,7 +24,7 @@ export const ContainerHeader = styled.div`
     
     .header_area {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         width: 100%;
         height: 100%;

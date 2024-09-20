@@ -3,7 +3,7 @@ import { IoMenu } from "react-icons/io5";
 import { useAuthContext } from "../../context/contextAuth/ContexAuth";
 import Perfil from "../../../public/perfil.jpg";
 
-const Header = () => {
+const Header = ( {  setModalVisible }) => {
     const { signInGoogle, auths } = useAuthContext();
 
     // Recupera e analisa os dados do localStorage
@@ -16,7 +16,7 @@ const Header = () => {
     return (
         <ContainerHeader>
             <div className="header_area">
-                <IoMenu className="menu_icon" />
+                {/* <IoMenu className="menu_icon" /> */}
                 <div className="header_area_right">
                     {displayName ? (
                         <>
@@ -27,7 +27,7 @@ const Header = () => {
                             {/* <p className="login">Sair</p> */}
                         </>
                     ) : <p 
-                            onClickCapture={(e) => { e.preventDefault(), signInGoogle()}} 
+                            onClickCapture={(e) => { e.preventDefault(), signInGoogle(), setModalVisible(false) }} 
                             className="login"
                             > Login</p>
                     }

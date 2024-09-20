@@ -133,5 +133,80 @@ export const Container_home = styled.div`
         
     }
 
-    
+    .popup {
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 110;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 30px 15px;
+        border-radius: 10px;
+        width: 300px;
+        
+        p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 3px 6px ;
+            background-color: #fff;
+            color: #000;
+            font-weight: bold;
+            border-radius: 5px;
+
+            &:hover {
+                color: #fff;
+                background-color: red;
+            }
+        }
+
+        h3 {
+            font-size: 1rem;
+            color: #fff;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        div {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            img {
+                width: 45px;
+                height: 45px;
+            }
+
+            button {
+                background-color: #fff;
+                border: none;
+                color: #000;
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: bold;
+                padding: 5px 20px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: red;
+                    color: #fff;
+                }
+            }
+        }
+
+    }
+
 `
