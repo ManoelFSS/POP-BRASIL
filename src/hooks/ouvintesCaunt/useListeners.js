@@ -5,7 +5,7 @@ import { db } from '../../services/FirebaseConfig';
 export const useListeners = () => {
   const audioRef = useRef(null);
   const [listeners, setListeners] = useState(0);
-  const [hasCounted, setHasCounted] = useState(false); // Estado para controlar se já contou
+  const [hasCounted, setHasCounted] = useState(false);
 
   const initializeListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
@@ -84,6 +84,22 @@ export const useListeners = () => {
 
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [hasCounted]);
+
+  // Função para decrementar ouvintes ao fechar a janela
+  const handleBeforeUnload = () => {
+    if (hasCounted) {
+      decrementListenersCount();
+      sessionStorage.setItem('hasCounted', 'false'); // Reseta a contagem para a próxima sessão
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [hasCounted]);
 
