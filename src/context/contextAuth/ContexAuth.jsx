@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'; // importando  o react context
 import { getDocs, getFirestore, collection, addDoc } from "firebase/firestore"
 import {getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { app } from '../../serices/FirebaseConfig';
+import { app } from '../../services/FirebaseConfig';
 
 
 const AuthContext = createContext(); // criando o context
