@@ -38,9 +38,7 @@ export const useListeners = () => {
     };
 
     const handlePause = () => {
-      if (!document.hidden) {
-        decrementListenersCount(); // Decrementa quando o áudio é pausado
-      }
+      decrementListenersCount(); // Decrementa quando o áudio é pausado
     };
 
     audio.addEventListener('play', handlePlay);
@@ -49,30 +47,6 @@ export const useListeners = () => {
     return () => {
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
-    };
-  }, []);
-
-  // Gerencia a visibilidade da aba do navegador
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        // A aba está escondida
-        if (audioRef.current.paused) {
-          decrementListenersCount(); // Decrementa se o áudio estiver pausado
-        }
-        // Se o áudio está tocando, não decremente
-      } else {
-        // A aba está visível
-        if (!audioRef.current.paused) {
-          incrementListenersCount(); // Incrementa se o áudio voltar a tocar
-        }
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
