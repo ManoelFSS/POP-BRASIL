@@ -1,15 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
-import { doc, updateDoc, increment, setDoc, onSnapshot, getDoc } from 'firebase/firestore';
+import { doc, updateDoc, increment, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../services/FirebaseConfig'; // Certifique-se de que o Firestore está configurado corretamente
 
 // Hook customizado que gerencia o contador de ouvintes
 export const useListeners = () => {
   const audioRef = useRef(null); // Referência para o player de áudio
   const [listeners, setListeners] = useState(0); // Estado para armazenar o número de ouvintes
+  const [isCounting, setIsCounting] = useState(false); // Estado para controlar se o usuário está sendo contado como ouvinte
 
   // Função para inicializar o contador de ouvintes no Firestore, se ele não existir
   const initializeListenersCount = async () => {
-    await setDoc(doc(db, 'listeners', 'listenersCount'), { count: 0 }, { merge: true });
+    const countDocRef = doc(db, 'listeners', 'listenersCount');
+    const docSnapshot = await getDoc(countDocRef);
+
+    if (!docSnapshot.exists()) {
+      await setDoc(countDocRef, { count: 0 });
+    }
   };
 
   // Função para incrementar o contador
@@ -21,11 +27,7 @@ export const useListeners = () => {
   // Função para decrementar o contador
   const decrementListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
-    const docSnap = await getDoc(countDocRef);
-    
-    if (docSnap.exists() && docSnap.data().count > 0) {
-      await updateDoc(countDocRef, { count: increment(-1) });
-    }
+    await updateDoc(countDocRef, { count: increment(-1) });
   };
 
   // Inicializa o contador quando o componente monta
@@ -38,19 +40,52 @@ export const useListeners = () => {
     const audio = audioRef.current;
 
     const handlePlay = () => {
-      incrementListenersCount(); // Incrementa quando o áudio começa a tocar
+      if (!isCounting) {
+        incrementListenersCount(); // Incrementa quando o áudio começa a tocar
+        setIsCounting(true); // Marca que já foi contado
+      }
     };
 
     const handlePause = () => {
-      decrementListenersCount(); // Decrementa quando o áudio é pausado
+      if (!document.hidden) {
+        decrementListenersCount(); // Decrementa quando o áudio é pausado
+        setIsCounting(false); // Reseta o contador
+      }
     };
 
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
+    if (audio) {
+      audio.addEventListener('play', handlePlay);
+      audio.addEventListener('pause', handlePause);
+    }
 
     return () => {
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
+      if (audio) {
+        audio.removeEventListener('play', handlePlay);
+        audio.removeEventListener('pause', handlePause);
+      }
+    };
+  }, [audioRef, isCounting]);
+
+  // Gerencia a visibilidade da aba do navegador
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (audioRef.current && !audioRef.current.paused) {
+          decrementListenersCount(); // Decrementa se a aba for escondida enquanto o áudio está tocando
+          setIsCounting(false); // Reseta o contador
+        }
+      } else {
+        if (audioRef.current && !audioRef.current.paused) {
+          incrementListenersCount(); // Incrementa se a aba voltar ao foco
+          setIsCounting(true); // Marca que já foi contado
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
