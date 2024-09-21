@@ -4,10 +4,10 @@ import { db } from '../../serices/FirebaseConfig'; // Certifique-se de que o Fir
 
 // Hook customizado que gerencia o contador de ouvintes
 export const useListeners = () => {
-  const audioRef = useRef(null); // Referência para o player de áudio
-  const [listeners, setListeners] = useState(0); // Estado para armazenar o número de ouvintes
+    const audioRef = useRef(null); // Referência para o player de áudio
+    const [listeners, setListeners] = useState(0); // Estado para armazenar o número de ouvintes
 
-  // Função para inicializar o contador de ouvintes no Firestore, se ele não existir
+    // Função para inicializar o contador de ouvintes no Firestore, se ele não existir
     const initializeListenersCount = async () => {
         await setDoc(doc(db, 'listeners', 'listenersCount'), { count: 0 }, { merge: true });
     };
@@ -52,16 +52,19 @@ export const useListeners = () => {
         };
     }, []);
 
-    // Gerencia a visibilidade da aba do navegador (incrementa ou decrementa quando a aba é escondida ou exibida)
+    // Gerencia a visibilidade da aba do navegador
     useEffect(() => {
         const handleVisibilityChange = () => {
         if (document.hidden) {
-            if (!audioRef.current.paused) {
-            decrementListenersCount(); // Decrementa se a aba for escondida enquanto o áudio está tocando
+            // A aba está escondida
+            if (audioRef.current.paused) {
+            decrementListenersCount(); // Decrementa se o áudio estiver pausado
             }
+            // Se o áudio está tocando, não decrementa
         } else {
+            // A aba está visível
             if (!audioRef.current.paused) {
-            incrementListenersCount(); // Incrementa se a aba voltar ao foco enquanto o áudio está tocando
+            incrementListenersCount(); // Incrementa se o áudio voltar a tocar
             }
         }
         };
