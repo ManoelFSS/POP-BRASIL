@@ -29,9 +29,6 @@ export const useListeners = () => {
   useEffect(() => {
     initializeListenersCount();
 
-    const sessionId = sessionStorage.getItem('sessionId') || Date.now();
-    sessionStorage.setItem('sessionId', sessionId);
-
     const counted = sessionStorage.getItem('hasCounted') === 'true';
     setHasCounted(counted);
 
@@ -52,8 +49,11 @@ export const useListeners = () => {
     };
 
     const handlePause = () => {
-      decrementListenersCount();
-      setHasCounted(false);
+      if (hasCounted) {
+        decrementListenersCount();
+        sessionStorage.setItem('hasCounted', 'false');
+        setHasCounted(false);
+      }
     };
 
     if (audio) {
@@ -71,7 +71,20 @@ export const useListeners = () => {
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (!document.hidden) {
+      if (document.hidden) {
+        // Não decrementa se o áudio está tocando
+        if (!audioRef.current.paused && hasCounted) {
+          // Se o áudio estiver tocando, não faz nada
+          return;
+        }
+        // Se não está tocando, decrementa
+        if (hasCounted) {
+          decrementListenersCount();
+          sessionStorage.setItem('hasCounted', 'false');
+          setHasCounted(false);
+        }
+      } else {
+        // Quando a aba volta ao foco
         if (audioRef.current && !audioRef.current.paused && !hasCounted) {
           incrementListenersCount();
           sessionStorage.setItem('hasCounted', 'true');
@@ -87,22 +100,6 @@ export const useListeners = () => {
     };
   }, [hasCounted]);
 
-  // Função para decrementar ouvintes ao fechar a janela
-  const handleBeforeUnload = () => {
-    if (hasCounted) {
-      decrementListenersCount();
-      sessionStorage.setItem('hasCounted', 'false'); // Reseta a contagem para a próxima sessão
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [hasCounted]);
-
   useEffect(() => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const unsubscribe = onSnapshot(countDocRef, (doc) => {
@@ -113,6 +110,22 @@ export const useListeners = () => {
 
     return () => unsubscribe();
   }, []);
+
+  // Função para decrementar ao fechar a janela
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (hasCounted) {
+        decrementListenersCount();
+        sessionStorage.setItem('hasCounted', 'false');
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [hasCounted]);
 
   return { audioRef, listeners };
 };
