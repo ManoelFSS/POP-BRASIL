@@ -47,10 +47,8 @@ export const useListeners = () => {
     };
 
     const handlePause = () => {
-      if (!document.hidden) {
-        decrementListenersCount(); // Decrementa quando o áudio é pausado
-        setIsCounting(false); // Reseta o contador
-      }
+      decrementListenersCount(); // Decrementa quando o áudio é pausado
+      setIsCounting(false); // Reseta o contador
     };
 
     if (audio) {
@@ -70,14 +68,15 @@ export const useListeners = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
+        // Se a aba for escondida, não decremente se o áudio está tocando
         if (audioRef.current && !audioRef.current.paused) {
-          decrementListenersCount(); // Decrementa se a aba for escondida enquanto o áudio está tocando
-          setIsCounting(false); // Reseta o contador
+          return; // Não faz nada se o áudio está tocando
         }
       } else {
+        // Quando a aba volta ao foco, incrementa se o áudio não estiver pausado
         if (audioRef.current && !audioRef.current.paused) {
-          incrementListenersCount(); // Incrementa se a aba voltar ao foco
-          setIsCounting(true); // Marca que já foi contado
+          incrementListenersCount();
+          setIsCounting(true);
         }
       }
     };
