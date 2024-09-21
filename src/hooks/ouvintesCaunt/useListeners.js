@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { doc, updateDoc, increment, setDoc, onSnapshot } from 'firebase/firestore';
+import { doc, updateDoc, increment, setDoc, onSnapshot, getDoc } from 'firebase/firestore';
 import { db } from '../../services/FirebaseConfig'; // Certifique-se de que o Firestore está configurado corretamente
 
 // Hook customizado que gerencia o contador de ouvintes
@@ -21,7 +21,11 @@ export const useListeners = () => {
   // Função para decrementar o contador
   const decrementListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
-    await updateDoc(countDocRef, { count: increment(-1) });
+    const docSnap = await getDoc(countDocRef);
+    
+    if (docSnap.exists() && docSnap.data().count > 0) {
+      await updateDoc(countDocRef, { count: increment(-1) });
+    }
   };
 
   // Inicializa o contador quando o componente monta
