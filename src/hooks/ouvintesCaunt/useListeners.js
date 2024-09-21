@@ -73,10 +73,13 @@ export const useListeners = () => {
           return; // Não faz nada se o áudio está tocando
         }
       } else {
-        // Quando a aba volta ao foco, não incremente se já foi contado
-        if (audioRef.current && !audioRef.current.paused && !isCounting) {
-          incrementListenersCount(); // Incrementa se não foi contado ainda
-          setIsCounting(true); // Marca que já foi contado
+        // Quando a aba volta ao foco
+        if (audioRef.current && !audioRef.current.paused) {
+          // Incrementa se ainda não foi contado
+          if (!isCounting) {
+            incrementListenersCount();
+            setIsCounting(true); // Marca que já foi contado
+          }
         }
       }
     };
