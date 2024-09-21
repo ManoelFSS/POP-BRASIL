@@ -33,6 +33,21 @@ export const useListeners = () => {
   // Inicializa o contador quando o componente monta
   useEffect(() => {
     initializeListenersCount();
+
+    // Gera um ID de sessão único
+    const sessionId = sessionStorage.getItem('sessionId') || Date.now();
+    sessionStorage.setItem('sessionId', sessionId);
+
+    // Verifica se o usuário já foi contado na sessão
+    const hasCounted = sessionStorage.getItem('hasCounted');
+    if (hasCounted) {
+      setIsCounting(true); // Marca que já foi contado
+    }
+
+    return () => {
+      // Limpa o estado ao desmontar
+      setIsCounting(false);
+    };
   }, []);
 
   // Adiciona listeners ao player de áudio e atualiza o contador quando o áudio é tocado ou pausado
@@ -42,6 +57,7 @@ export const useListeners = () => {
     const handlePlay = () => {
       if (!isCounting) {
         incrementListenersCount(); // Incrementa quando o áudio começa a tocar
+        sessionStorage.setItem('hasCounted', 'true'); // Marca que já foi contado
         setIsCounting(true); // Marca que já foi contado
       }
     };
@@ -78,6 +94,7 @@ export const useListeners = () => {
           // Incrementa se ainda não foi contado
           if (!isCounting) {
             incrementListenersCount();
+            sessionStorage.setItem('hasCounted', 'true'); // Marca que já foi contado
             setIsCounting(true); // Marca que já foi contado
           }
         }
