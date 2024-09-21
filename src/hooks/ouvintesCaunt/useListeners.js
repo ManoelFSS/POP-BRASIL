@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { doc, updateDoc, increment, setDoc, onSnapshot } from 'firebase/firestore';
-import { db } from '../../services/FirebaseConfig'; // Certifique-se de que o Firestore está configurado corretamente
+import { db } from '../../services/FirebaseConfig';
 
 // Hook customizado que gerencia o contador de ouvintes
 export const useListeners = () => {
@@ -41,13 +41,31 @@ export const useListeners = () => {
       decrementListenersCount(); // Decrementa quando o áudio é pausado
     };
 
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
+    if (audio) {
+      audio.addEventListener('play', handlePlay);
+      audio.addEventListener('pause', handlePause);
+    }
 
     return () => {
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
+      if (audio) {
+        audio.removeEventListener('play', handlePlay);
+        audio.removeEventListener('pause', handlePause);
+      }
     };
+  }, []);
+
+  // Gerencia o autoplay
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      const handleAutoplay = async () => {
+        if (!audio.paused) {
+          await incrementListenersCount(); // Incrementa se o áudio já estiver tocando
+        }
+      };
+
+      handleAutoplay();
+    }
   }, []);
 
   // Escuta o Firestore em tempo real para atualizar o número de ouvintes
