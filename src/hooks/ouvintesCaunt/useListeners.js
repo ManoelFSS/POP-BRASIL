@@ -26,6 +26,12 @@ export const useListeners = () => {
     await updateDoc(countDocRef, { count: increment(-1) });
   };
 
+  const decrementListenersCountMobile = async () => {
+    // Lógica específica para decremento em mobile
+    const countDocRef = doc(db, 'listeners', 'listenersCount');
+    await updateDoc(countDocRef, { count: increment(-1) });
+  };
+
   useEffect(() => {
     initializeListenersCount();
 
@@ -72,19 +78,15 @@ export const useListeners = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        // Não decrementa se o áudio está tocando
         if (!audioRef.current.paused && hasCounted) {
-          // Se o áudio estiver tocando, não faz nada
-          return;
+          return; // Se o áudio estiver tocando, não faz nada
         }
-        // Se não está tocando, decrementa
         if (hasCounted) {
           decrementListenersCount();
           sessionStorage.setItem('hasCounted', 'false');
           setHasCounted(false);
         }
       } else {
-        // Quando a aba volta ao foco
         if (audioRef.current && !audioRef.current.paused && !hasCounted) {
           incrementListenersCount();
           sessionStorage.setItem('hasCounted', 'true');
@@ -113,15 +115,20 @@ export const useListeners = () => {
 
   // Função para decrementar ao fechar a janela
   useEffect(() => {
-    const handleBeforeUnload = () => {
+    const handleBeforeUnload = (event) => {
       if (hasCounted) {
-        decrementListenersCount();
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+          decrementListenersCountMobile();
+        } else {
+          decrementListenersCount();
+        }
         sessionStorage.setItem('hasCounted', 'false');
       }
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
-    
+
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
