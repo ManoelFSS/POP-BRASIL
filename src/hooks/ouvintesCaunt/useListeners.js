@@ -73,10 +73,10 @@ export const useListeners = () => {
           return; // Não faz nada se o áudio está tocando
         }
       } else {
-        // Quando a aba volta ao foco, incrementa se o áudio não estiver pausado
-        if (audioRef.current && !audioRef.current.paused) {
-          incrementListenersCount();
-          setIsCounting(true);
+        // Quando a aba volta ao foco, não incremente se já foi contado
+        if (audioRef.current && !audioRef.current.paused && !isCounting) {
+          incrementListenersCount(); // Incrementa se não foi contado ainda
+          setIsCounting(true); // Marca que já foi contado
         }
       }
     };
@@ -86,7 +86,7 @@ export const useListeners = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isCounting]);
 
   // Escuta o Firestore em tempo real para atualizar o número de ouvintes
   useEffect(() => {
