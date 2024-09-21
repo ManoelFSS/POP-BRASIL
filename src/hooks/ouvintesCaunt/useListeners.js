@@ -80,6 +80,21 @@ export const useListeners = () => {
     return () => unsubscribe(); // Cleanup ao desmontar o componente
   }, []);
 
+  // Decrementa o contador ao fechar ou recarregar a página
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (!audioRef.current.paused) {
+        decrementListenersCount(); // Decrementa se o áudio estiver tocando
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   // Retorna o áudio e o número de ouvintes para ser usado no componente principal
   return { audioRef, listeners };
 };
