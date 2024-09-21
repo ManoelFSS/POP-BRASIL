@@ -4,11 +4,11 @@ import { PlayerControls, VolumeContainer, VolumeIndicator, Container_img, Btns }
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { AiFillSound } from "react-icons/ai";
 
-
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-
-
 import Btn_icon from "../btn/Btn_Icon";
+
+import { useListeners } from '../../hooks/ouvintesCaunt/useListeners'; // Desestrutura o hook para usar no componente
+
 
 
 const calculateAngle = (x, y, centerX, centerY) => {
@@ -22,7 +22,6 @@ const calculateAngle = (x, y, centerX, centerY) => {
 const Player = ({ audioSrc, albumCover }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.3); // Volume inicial (começa com 30%)
-  const audioRef = useRef(null);
   const volumeContainerRef = useRef(null);
   const dragging = useRef(false);
 
@@ -81,6 +80,9 @@ const Player = ({ audioSrc, albumCover }) => {
     handleVolumeChange(touch.clientX, touch.clientY);
   };
 
+    const { audioRef, listeners } = useListeners(); // Desestrutura o hook para usar no componente
+
+
   return (
     <div
       onMouseMove={handleMouseMove}
@@ -108,7 +110,10 @@ const Player = ({ audioSrc, albumCover }) => {
           <Btn_icon icon={isPlaying ? <FaPause style={{ color: "red" }} /> : <FaPlay />} onClick={handlePlayPause} />
           {/* <Btn_icon icon={<TbPlayerTrackNextFilled />} onClick={handlePlayPause} /> */}
         </Btns>
-
+        <div className='ouvintes'>
+          <h3>Ouvintes:</h3>
+          <p>{listeners}</p>
+        </div>
       </PlayerControls>
     </div>
   );

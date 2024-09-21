@@ -12,6 +12,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import { PiShareFatDuotone } from "react-icons/pi";
 
 
+
 import Google from "../../../public/google.png";
 import { useAuthContext } from "../../context/contextAuth/ContexAuth"; // Certifique-se de ajustar o caminho
 
@@ -20,6 +21,9 @@ const Home = () => {
     const [isStandalone, setIsStandalone] = useState(false);
     const [isInstallable, setIsInstallable] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+
+    
+
 
     const User = JSON.parse(localStorage.getItem("User"));
     

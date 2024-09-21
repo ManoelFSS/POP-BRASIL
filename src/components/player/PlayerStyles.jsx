@@ -8,6 +8,27 @@ export const PlayerControls = styled.div`
   padding: 10px 0px 0px 0px ;
   position: relative;
 
+  .ouvintes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+
+    h3 {
+      font-size: 1.2rem;
+      color: #fff;
+    
+    }
+
+    p{
+      font-weight: bold;
+      color: red;
+      font-size: 1.4rem;
+      margin-top: 2px;
+    }
+  }
+
 
 `;
 
