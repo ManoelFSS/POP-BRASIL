@@ -40,8 +40,11 @@ export const useListeners = () => {
 
     // Verifica se o usuário já foi contado na sessão
     const hasCounted = sessionStorage.getItem('hasCounted');
-    if (hasCounted) {
+    if (hasCounted === 'true') {
       setIsCounting(true); // Marca que já foi contado
+    } else {
+      // Se ainda não foi contado, marca que deve ser contado
+      sessionStorage.setItem('hasCounted', 'false'); // Inicializa como 'false'
     }
 
     return () => {
