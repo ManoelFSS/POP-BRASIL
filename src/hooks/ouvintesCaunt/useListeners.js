@@ -9,8 +9,7 @@ export const useListeners = () => {
 
   // Função para inicializar o contador de ouvintes no Firestore, se ele não existir
   const initializeListenersCount = async () => {
-    const countDocRef = doc(db, 'listeners', 'listenersCount');
-    await setDoc(countDocRef, { count: 0 }, { merge: true });
+    await setDoc(doc(db, 'listeners', 'listenersCount'), { count: 0 }, { merge: true });
   };
 
   // Função para incrementar o contador
@@ -42,40 +41,14 @@ export const useListeners = () => {
       decrementListenersCount(); // Decrementa quando o áudio é pausado
     };
 
-    if (audio) {
-      audio.addEventListener('play', handlePlay);
-      audio.addEventListener('pause', handlePause);
-    }
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
 
     return () => {
-      if (audio) {
-        audio.removeEventListener('play', handlePlay);
-        audio.removeEventListener('pause', handlePause);
-      }
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
     };
-  }, [audioRef]);
-
-  // Gerencia a visibilidade da aba do navegador
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      const audio = audioRef.current;
-      if (document.hidden) {
-        if (audio && !audio.paused) {
-          decrementListenersCount(); // Decrementa se a aba for escondida enquanto o áudio está tocando
-        }
-      } else {
-        if (audio && !audio.paused) {
-          incrementListenersCount(); // Incrementa se a aba voltar ao foco enquanto o áudio está tocando
-        }
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [audioRef]);
+  }, []);
 
   // Escuta o Firestore em tempo real para atualizar o número de ouvintes
   useEffect(() => {
@@ -87,19 +60,6 @@ export const useListeners = () => {
     });
 
     return () => unsubscribe(); // Cleanup ao desmontar o componente
-  }, []);
-
-  // Função para lidar com a saída da página
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      decrementListenersCount(); // Decrementa quando o usuário fecha a aba ou recarrega
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, []);
 
   // Retorna o áudio e o número de ouvintes para ser usado no componente principal
