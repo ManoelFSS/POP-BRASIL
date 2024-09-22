@@ -7,6 +7,7 @@ export const useListeners = () => {
   const [listeners, setListeners] = useState(0);
   const [hasCounted, setHasCounted] = useState(false);
 
+  // Inicializa o contador de ouvintes no Firebase
   const initializeListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const docSnapshot = await getDoc(countDocRef);
@@ -16,33 +17,30 @@ export const useListeners = () => {
     }
   };
 
+  // Incrementa o contador de ouvintes no Firebase
   const incrementListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     await updateDoc(countDocRef, { count: increment(1) });
   };
 
+  // Decrementa o contador de ouvintes no Firebase
   const decrementListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     await updateDoc(countDocRef, { count: increment(-1) });
   };
 
+  // Decrementa o contador em dispositivos móveis
   const decrementListenersCountMobile = async () => {
-    // Lógica específica para decremento em mobile
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     await updateDoc(countDocRef, { count: increment(-1) });
   };
 
-  useEffect(() => {
-    initializeListenersCount();
+  // Função para verificar se o áudio está pausado
+  const isAudioPlaying = () => {
+    return audioRef.current && !audioRef.current.paused;
+  };
 
-    const counted = sessionStorage.getItem('hasCounted') === 'true';
-    setHasCounted(counted);
-
-    return () => {
-      setHasCounted(false);
-    };
-  }, []);
-
+  // Monitoramento e manipulação de contagem de ouvintes
   useEffect(() => {
     const audio = audioRef.current;
 
@@ -75,23 +73,14 @@ export const useListeners = () => {
     };
   }, [audioRef, hasCounted]);
 
+  // Detecção de mudanças de visibilidade
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.hidden) {
-        if (!audioRef.current.paused && hasCounted) {
-          return; // Se o áudio estiver tocando, não faz nada
-        }
-        if (hasCounted) {
-          decrementListenersCount();
-          sessionStorage.setItem('hasCounted', 'false');
-          setHasCounted(false);
-        }
-      } else {
-        if (audioRef.current && !audioRef.current.paused && !hasCounted) {
-          incrementListenersCount();
-          sessionStorage.setItem('hasCounted', 'true');
-          setHasCounted(true);
-        }
+      // Só remove o ouvinte se o áudio realmente parar
+      if (document.hidden && !isAudioPlaying() && hasCounted) {
+        decrementListenersCount();
+        sessionStorage.setItem('hasCounted', 'false');
+        setHasCounted(false);
       }
     };
 
@@ -102,6 +91,7 @@ export const useListeners = () => {
     };
   }, [hasCounted]);
 
+  // Atualiza o estado dos ouvintes em tempo real com o Firebase
   useEffect(() => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const unsubscribe = onSnapshot(countDocRef, (doc) => {
@@ -113,9 +103,9 @@ export const useListeners = () => {
     return () => unsubscribe();
   }, []);
 
-  // Função para decrementar ao fechar a janela
+  // Decrementa a contagem ao fechar a janela
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
+    const handleBeforeUnload = () => {
       if (hasCounted) {
         const isMobile = /Mobi|Android/i.test(navigator.userAgent);
         if (isMobile) {
@@ -133,6 +123,17 @@ export const useListeners = () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [hasCounted]);
+
+  // Inicializa o contador ao carregar
+  useEffect(() => {
+    initializeListenersCount();
+    const counted = sessionStorage.getItem('hasCounted') === 'true';
+    setHasCounted(counted);
+
+    return () => {
+      setHasCounted(false);
+    };
+  }, []);
 
   return { audioRef, listeners };
 };
