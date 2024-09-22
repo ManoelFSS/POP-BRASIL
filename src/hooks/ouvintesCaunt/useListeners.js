@@ -40,6 +40,19 @@ export const useListeners = () => {
     return audioRef.current && !audioRef.current.paused;
   };
 
+  // Limpa a sessão ao fechar a aba ou a janela, forçando o decremento
+  const handleUnload = () => {
+    if (hasCounted) {
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        decrementListenersCountMobile();
+      } else {
+        decrementListenersCount();
+      }
+      sessionStorage.removeItem('hasCounted'); // Remover o status da sessão ao fechar
+    }
+  };
+
   // Monitoramento e manipulação de contagem de ouvintes
   useEffect(() => {
     const audio = audioRef.current;
@@ -105,22 +118,10 @@ export const useListeners = () => {
 
   // Decrementa a contagem ao fechar a janela
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (hasCounted) {
-        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-        if (isMobile) {
-          decrementListenersCountMobile();
-        } else {
-          decrementListenersCount();
-        }
-        sessionStorage.setItem('hasCounted', 'false');
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('beforeunload', handleUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('beforeunload', handleUnload);
     };
   }, [hasCounted]);
 
