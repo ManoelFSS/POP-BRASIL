@@ -29,27 +29,12 @@ export const useListeners = () => {
     await updateDoc(countDocRef, { count: increment(-1) });
   };
 
-  // Decrementa o contador em dispositivos móveis
-  const decrementListenersCountMobile = async () => {
-    const countDocRef = doc(db, 'listeners', 'listenersCount');
-    await updateDoc(countDocRef, { count: increment(-1) });
-  };
-
-  // Função para verificar se o áudio está pausado
-  const isAudioPlaying = () => {
-    return audioRef.current && !audioRef.current.paused;
-  };
-
-  // Limpa a sessão ao fechar a aba ou a janela, forçando o decremento
-  const handleUnload = () => {
+  // Função para limpar sessionStorage ao fechar a aba
+  const clearSessionOnUnload = () => {
     if (hasCounted) {
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        decrementListenersCountMobile();
-      } else {
-        decrementListenersCount();
-      }
-      sessionStorage.removeItem('hasCounted'); // Remover o status da sessão ao fechar
+      decrementListenersCount();
+      sessionStorage.removeItem('hasCounted');
+      setHasCounted(false);
     }
   };
 
@@ -86,14 +71,29 @@ export const useListeners = () => {
     };
   }, [audioRef, hasCounted]);
 
-  // Detecção de mudanças de visibilidade
+  // Detecção de mudanças de visibilidade sem remover o ouvinte quando o áudio está tocando
   useEffect(() => {
     const handleVisibilityChange = () => {
-      // Só remove o ouvinte se o áudio realmente parar
-      if (document.hidden && !isAudioPlaying() && hasCounted) {
-        decrementListenersCount();
-        sessionStorage.setItem('hasCounted', 'false');
-        setHasCounted(false);
+      const audio = audioRef.current;
+
+      if (document.hidden) {
+        // Aba foi para segundo plano, mas não removeremos o ouvinte se o áudio ainda estiver tocando
+        if (audio && !audio.paused && hasCounted) {
+          return; // Se o áudio estiver tocando, não remove o ouvinte
+        }
+        // Se o áudio estiver pausado e o ouvinte estiver contado, decrementa
+        if (hasCounted && audio.paused) {
+          decrementListenersCount();
+          sessionStorage.setItem('hasCounted', 'false');
+          setHasCounted(false);
+        }
+      } else {
+        // Aba voltou ao primeiro plano, incrementa apenas se o áudio estiver tocando e não estiver contado
+        if (audio && !audio.paused && !hasCounted) {
+          incrementListenersCount();
+          sessionStorage.setItem('hasCounted', 'true');
+          setHasCounted(true);
+        }
       }
     };
 
@@ -116,12 +116,12 @@ export const useListeners = () => {
     return () => unsubscribe();
   }, []);
 
-  // Decrementa a contagem ao fechar a janela
+  // Decrementa a contagem ao fechar a janela e limpa a sessão
   useEffect(() => {
-    window.addEventListener('beforeunload', handleUnload);
+    window.addEventListener('beforeunload', clearSessionOnUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleUnload);
+      window.removeEventListener('beforeunload', clearSessionOnUnload);
     };
   }, [hasCounted]);
 
