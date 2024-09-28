@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { doc, updateDoc, increment, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../services/FirebaseConfig';
 
-const isAndroid = () => /Android/i.test(navigator.userAgent);
-
 export const useListeners = () => {
   const audioRef = useRef(null);
   const [listeners, setListeners] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasCounted, setHasCounted] = useState(false);
+  const localStorageKey = "hasVisited";
 
   const initializeListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
@@ -28,29 +27,74 @@ export const useListeners = () => {
     await updateDoc(countDocRef, { count: increment(-1) });
   };
 
+  const decrementListenersCountMobile = async () => {
+    const countDocRef = doc(db, 'listeners', 'listenersCount');
+    await updateDoc(countDocRef, { count: increment(-1) });
+  };
+
+  const isNewTabOrFirstVisit = () => {
+    if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+      return false;
+    }
+    return true;
+  };
+
+  const removeFromFirebase = async () => {
+    const countDocRef = doc(db, 'listeners', 'listenersCount');
+    const docSnapshot = await getDoc(countDocRef);
+
+    if (docSnapshot.exists()) {
+      const currentCount = docSnapshot.data().count;
+
+      if (currentCount > 1) {
+        console.log("Removendo 1 do Firebase...");
+        await decrementListenersCount(); // Decrementa se o contador for maior que 1
+      } else if (currentCount === 1) {
+        console.log("Mantendo 1 ouvinte no Firebase.");
+        // Não faz nada se for 1, apenas mantém o contador
+      } else {
+        console.log("Não é possível remover, o contador já está em 0 ou menor.");
+      }
+    }
+  };
+
   useEffect(() => {
     initializeListenersCount();
+
+    // Se for uma nova aba ou a primeira visita
+    if (isNewTabOrFirstVisit()) {
+      console.log("Nova aba ou primeira visita - limpando localStorage e removendo 1 do Firebase");
+      localStorage.removeItem(localStorageKey); // Limpa o localStorage
+      removeFromFirebase(); // Remove 1 do Firebase
+    }
+
+    const counted = sessionStorage.getItem('hasCounted') === 'true';
+    setHasCounted(counted);
+
+    return () => {
+      setHasCounted(false);
+    };
   }, []);
 
   useEffect(() => {
+    const audio = audioRef.current;
+
     const handlePlay = () => {
-      // Verifica se o play está disponível
-      if (!localStorage.getItem('playControl')) {
-        incrementListenersCount(); // Adiciona 1 ao contador
-        localStorage.setItem('playControl', 'true'); // Salva que o play foi executado
+      if (!hasCounted) {
+        incrementListenersCount();
+        sessionStorage.setItem('hasCounted', 'true');
+        setHasCounted(true);
       }
-      setIsPlaying(true);
     };
 
     const handlePause = () => {
-      if (isPlaying) {
-        decrementListenersCount(); // Remove 1 do contador
-        localStorage.removeItem('playControl'); // Remove a variável de controle de play
+      if (hasCounted) {
+        decrementListenersCount();
+        sessionStorage.setItem('hasCounted', 'false');
+        setHasCounted(false);
       }
-      setIsPlaying(false);
     };
 
-    const audio = audioRef.current;
     if (audio) {
       audio.addEventListener('play', handlePlay);
       audio.addEventListener('pause', handlePause);
@@ -62,21 +106,34 @@ export const useListeners = () => {
         audio.removeEventListener('pause', handlePause);
       }
     };
-  }, [audioRef, isPlaying]);
+  }, [audioRef, hasCounted]);
 
   useEffect(() => {
-    const handlePageOpen = () => {
-      localStorage.removeItem('decrementControl'); // Remove a variável de controle de decremento
-      // Verifica se o contador no Firebase é maior que 0 antes de decrementar
-      decrementListenersCount(); // Remove 1 do contador se for maior que 0
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (!audioRef.current.paused && hasCounted) {
+          return; // Se o áudio estiver tocando, não faz nada
+        }
+        if (hasCounted) {
+          decrementListenersCount();
+          sessionStorage.setItem('hasCounted', 'false');
+          setHasCounted(false);
+        }
+      } else {
+        if (audioRef.current && !audioRef.current.paused && !hasCounted) {
+          incrementListenersCount();
+          sessionStorage.setItem('hasCounted', 'true');
+          setHasCounted(true);
+        }
+      }
     };
 
-    window.addEventListener('load', handlePageOpen);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      window.removeEventListener('load', handlePageOpen);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [hasCounted]);
 
   useEffect(() => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
@@ -89,32 +146,18 @@ export const useListeners = () => {
     return () => unsubscribe();
   }, []);
 
-  // Lidar com a visibilidade da aba
+  // Função para decrementar ao fechar a janela
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        // Se o áudio já foi tocado antes, inicia automaticamente
-        if (localStorage.getItem('playControl') && isAndroid()) {
-          if (audioRef.current) {
-            audioRef.current.play();
-            setIsPlaying(true); // Marca que o áudio está tocando
-          }
+    const handleBeforeUnload = (event) => {
+      if (hasCounted) {
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+          decrementListenersCountMobile();
+        } else {
+          decrementListenersCount();
         }
+        sessionStorage.setItem('hasCounted', 'false');
       }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [isPlaying]);
-
-  // Limpar localStorage ao fechar a página
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.removeItem('decrementControl'); // Limpa a variável de controle de decremento
-      localStorage.removeItem('playControl'); // Limpa a variável de controle de play
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -122,7 +165,7 @@ export const useListeners = () => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, []);
+  }, [hasCounted]);
 
   return { audioRef, listeners };
 };
