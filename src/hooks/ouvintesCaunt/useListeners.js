@@ -5,8 +5,8 @@ import { db } from '../../services/FirebaseConfig';
 export const useListeners = () => {
   const audioRef = useRef(null);
   const [listeners, setListeners] = useState(0);
-  const [hasCounted, setHasCounted] = useState(false);
-  const localStorageKey = 'hasVisited';
+  const [isPlaying, setIsPlaying] = useState(false); // Para verificar se o áudio está tocando
+  const [hasCounted, setHasCounted] = useState(false); // Para verificar se já incrementou
 
   // Função para inicializar o contador de ouvintes no Firebase
   const initializeListenersCount = async () => {
@@ -28,28 +28,8 @@ export const useListeners = () => {
     await updateDoc(countDocRef, { count: increment(-1) });
   };
 
-  const isNewTabOrFirstVisit = () => {
-    if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
-      return false;
-    }
-    return true;
-  };
-
-  const removeFromFirebase = async () => {
-    console.log('Removendo 1 do Firebase...');
-    await decrementListenersCount();
-  };
-
   useEffect(() => {
     initializeListenersCount();
-
-    const counted = sessionStorage.getItem('hasCounted') === 'true';
-    setHasCounted(counted);
-
-    if (isNewTabOrFirstVisit()) {
-      console.log('Nova aba ou primeira visita - limpando localStorage');
-      localStorage.removeItem(localStorageKey);
-    }
 
     return () => {
       setHasCounted(false);
@@ -62,17 +42,18 @@ export const useListeners = () => {
     const handlePlay = () => {
       if (!hasCounted) {
         incrementListenersCount();
-        sessionStorage.setItem('hasCounted', 'true');
-        setHasCounted(true);
+        setHasCounted(true); // Marcar que já contou
       }
+      setIsPlaying(true); // Marcar que o áudio está tocando
     };
 
     const handlePause = () => {
-      if (hasCounted) {
+      // Remove um ouvinte quando o áudio é pausado
+      if (isPlaying) {
         decrementListenersCount();
-        sessionStorage.setItem('hasCounted', 'false');
-        setHasCounted(false);
       }
+      setIsPlaying(false); // Atualiza o estado para pausado
+      setHasCounted(false); // Permitir que o contador seja incrementado novamente
     };
 
     if (audio) {
@@ -86,19 +67,14 @@ export const useListeners = () => {
         audio.removeEventListener('pause', handlePause);
       }
     };
-  }, [audioRef, hasCounted]);
+  }, [audioRef, hasCounted, isPlaying]);
 
-  // Verifica o fechamento da aba ou recarregamento real
+  // Controle para fechamento de aba
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      if (hasCounted) {
-        // Se for uma nova sessão ou aba realmente fechada
-        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-        if (!document.hidden && !isMobile) {
-          // Apenas remove se for uma nova sessão, não colocando aba em segundo plano
-          decrementListenersCount();
-          sessionStorage.setItem('hasCounted', 'false');
-        }
+      if (isPlaying) {
+        decrementListenersCount();
+        setHasCounted(false); // Reinicia a contagem para nova sessão
       }
     };
 
@@ -107,26 +83,9 @@ export const useListeners = () => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [hasCounted]);
+  }, [isPlaying]);
 
-  // Detecta se a aba está apenas em segundo plano e não decrementa
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        console.log('Aba foi trazida para frente.');
-      } else {
-        console.log('Aba em segundo plano - contador não será decrementado');
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, []);
-
-  // Escuta atualizações do Firebase
+  // Escuta as mudanças no contador de ouvintes no Firebase
   useEffect(() => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const unsubscribe = onSnapshot(countDocRef, (doc) => {
