@@ -97,5 +97,24 @@ export const useListeners = () => {
     return () => unsubscribe();
   }, []);
 
+  // Lidar com a visibilidade da aba
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // Se a aba é visível e está pausada, podemos dar play sem incrementar o contador
+        if (audioRef.current && audioRef.current.paused) {
+          setIsPlaying(false);
+          setHasCounted(false); // Permitir que o contador seja incrementado na próxima vez que o áudio tocar
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   return { audioRef, listeners };
 };
