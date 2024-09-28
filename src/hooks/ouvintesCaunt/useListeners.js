@@ -11,6 +11,7 @@ export const useListeners = () => {
   const [hasCounted, setHasCounted] = useState(false);
   const [isFirstVisit, setIsFirstVisit] = useState(true); // Para rastrear se é a primeira visita
 
+  // Função para inicializar o contador de ouvintes no Firebase, caso não exista
   const initializeListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const docSnapshot = await getDoc(countDocRef);
@@ -20,36 +21,40 @@ export const useListeners = () => {
     }
   };
 
+  // Função para incrementar o contador de ouvintes no Firebase
   const incrementListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     await updateDoc(countDocRef, { count: increment(1) });
   };
 
+  // Função para decrementar o contador de ouvintes no Firebase
   const decrementListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     await updateDoc(countDocRef, { count: increment(-1) });
   };
 
+  // Inicializa o contador de ouvintes no Firebase
   useEffect(() => {
     initializeListenersCount();
   }, []);
 
+  // Gerencia os eventos de play e pause no áudio
   useEffect(() => {
     const audio = audioRef.current;
 
     const handlePlay = () => {
       if (!hasCounted) {
-        incrementListenersCount();
+        incrementListenersCount(); // Incrementa o contador no primeiro play
         setHasCounted(true);
       }
-      setIsPlaying(true);
+      setIsPlaying(true); // Marca o áudio como "tocando"
     };
 
     const handlePause = () => {
       if (isPlaying) {
-        decrementListenersCount();
+        decrementListenersCount(); // Decrementa o contador ao pausar o áudio
       }
-      setIsPlaying(false);
+      setIsPlaying(false); // Marca o áudio como "parado"
       setHasCounted(false);
     };
 
@@ -66,11 +71,12 @@ export const useListeners = () => {
     };
   }, [audioRef, hasCounted, isPlaying]);
 
+  // Lida com a contagem ao fechar a aba ou recarregar a página
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (isPlaying) {
-        decrementListenersCount();
-        setHasCounted(false);
+        decrementListenersCount(); // Decrementa o contador ao fechar ou recarregar a página
+        setHasCounted(false); // Reseta a contagem para permitir que incremente novamente no próximo play
       }
     };
 
@@ -81,29 +87,29 @@ export const useListeners = () => {
     };
   }, [isPlaying]);
 
+  // Sincroniza a contagem de ouvintes em tempo real
   useEffect(() => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const unsubscribe = onSnapshot(countDocRef, (doc) => {
       if (doc.exists()) {
-        setListeners(doc.data().count);
+        setListeners(doc.data().count); // Atualiza o estado com a contagem atual do Firebase
       }
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cancela a escuta no Firebase ao desmontar o componente
   }, []);
 
-  // Lidar com a visibilidade da aba
+  // Lida com a visibilidade da aba e controle de áudio
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
+        // Se for a primeira visita, não toca o áudio automaticamente
         if (isFirstVisit) {
-          setIsFirstVisit(false); // Atualiza para não ser mais a primeira visita
+          setIsFirstVisit(false); // Marca que não é mais a primeira visita
         } else {
-          // Se for um dispositivo Android e não for a primeira visita, permite que o áudio toque automaticamente
-          if (isAndroid()) {
-            if (audioRef.current) {
-              audioRef.current.play();
-            }
+          // Se for Android e não for a primeira visita, permite o áudio tocar automaticamente
+          if (isAndroid() && audioRef.current && !isPlaying) {
+            audioRef.current.play();
             setIsPlaying(true); // Marca que o áudio está tocando
             setHasCounted(true); // Não incrementa o contador novamente
           }
@@ -116,7 +122,7 @@ export const useListeners = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [isFirstVisit]);
+  }, [isFirstVisit, isPlaying]);
 
-  return { audioRef, listeners };
+  return { audioRef, listeners }; // Retorna a referência de áudio e a contagem de ouvintes
 };
