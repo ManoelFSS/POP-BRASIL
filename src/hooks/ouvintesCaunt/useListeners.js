@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { doc, updateDoc, increment, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../services/FirebaseConfig';
 
+const isAndroid = () => /Android/i.test(navigator.userAgent);
+
 export const useListeners = () => {
   const audioRef = useRef(null);
   const [listeners, setListeners] = useState(0);
@@ -97,12 +99,14 @@ export const useListeners = () => {
         if (isFirstVisit) {
           setIsFirstVisit(false); // Atualiza para não ser mais a primeira visita
         } else {
-          // Se não for a primeira visita, permite que o áudio toque automaticamente
-          if (audioRef.current) {
-            audioRef.current.play();
+          // Se for um dispositivo Android e não for a primeira visita, permite que o áudio toque automaticamente
+          if (isAndroid()) {
+            if (audioRef.current) {
+              audioRef.current.play();
+            }
+            setIsPlaying(true); // Marca que o áudio está tocando
+            setHasCounted(true); // Não incrementa o contador novamente
           }
-          setIsPlaying(true); // Marca que o áudio está tocando
-          setHasCounted(true); // Não incrementa o contador novamente
         }
       }
     };
