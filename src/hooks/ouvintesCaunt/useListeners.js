@@ -7,6 +7,7 @@ export const useListeners = () => {
   const [listeners, setListeners] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasCounted, setHasCounted] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(true); // Para rastrear se é a primeira visita
 
   const initializeListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
@@ -40,7 +41,6 @@ export const useListeners = () => {
         setHasCounted(true);
       }
       setIsPlaying(true);
-      sessionStorage.setItem('audioPlaying', 'true'); // Armazena o estado do áudio
     };
 
     const handlePause = () => {
@@ -49,7 +49,6 @@ export const useListeners = () => {
       }
       setIsPlaying(false);
       setHasCounted(false);
-      sessionStorage.setItem('audioPlaying', 'false'); // Atualiza o estado do áudio
     };
 
     if (audio) {
@@ -70,7 +69,6 @@ export const useListeners = () => {
       if (isPlaying) {
         decrementListenersCount();
         setHasCounted(false);
-        sessionStorage.setItem('audioPlaying', 'false'); // Atualiza o estado do áudio
       }
     };
 
@@ -96,16 +94,15 @@ export const useListeners = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        // Ao reabrir a aba, verifica se o áudio estava tocando
-        const audioPlaying = sessionStorage.getItem('audioPlaying') === 'true';
-        if (audioPlaying) {
+        if (isFirstVisit) {
+          setIsFirstVisit(false); // Atualiza para não ser mais a primeira visita
+        } else {
+          // Se não for a primeira visita, permite que o áudio toque automaticamente
           if (audioRef.current) {
             audioRef.current.play();
           }
           setIsPlaying(true); // Marca que o áudio está tocando
           setHasCounted(true); // Não incrementa o contador novamente
-        } else {
-          setIsPlaying(false); // Se não estava tocando, permanece assim
         }
       }
     };
@@ -115,7 +112,7 @@ export const useListeners = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isFirstVisit]);
 
   return { audioRef, listeners };
 };
