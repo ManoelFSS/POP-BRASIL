@@ -36,20 +36,15 @@ export const useListeners = () => {
     const handlePlay = () => {
       // Verifica se o play está disponível
       if (!localStorage.getItem('playControl')) {
-        incrementListenersCount();
+        incrementListenersCount(); // Adiciona 1 ao contador
         localStorage.setItem('playControl', 'true'); // Salva que o play foi executado
-        setIsPlaying(true);
-      } else {
-        // Se o audio já foi tocado antes, apenas inicia
-        if (audioRef.current) {
-          audioRef.current.play();
-        }
       }
+      setIsPlaying(true);
     };
 
     const handlePause = () => {
       if (isPlaying) {
-        decrementListenersCount();
+        decrementListenersCount(); // Remove 1 do contador
         localStorage.removeItem('playControl'); // Remove a variável de controle de play
       }
       setIsPlaying(false);
@@ -72,6 +67,7 @@ export const useListeners = () => {
   useEffect(() => {
     const handlePageOpen = () => {
       localStorage.removeItem('decrementControl'); // Remove a variável de controle de decremento
+      // Verifica se o contador no Firebase é maior que 0 antes de decrementar
       decrementListenersCount(); // Remove 1 do contador se for maior que 0
     };
 
@@ -101,8 +97,8 @@ export const useListeners = () => {
         if (localStorage.getItem('playControl') && isAndroid()) {
           if (audioRef.current) {
             audioRef.current.play();
+            setIsPlaying(true); // Marca que o áudio está tocando
           }
-          setIsPlaying(true); // Marca que o áudio está tocando
         }
       }
     };
@@ -113,6 +109,20 @@ export const useListeners = () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [isPlaying]);
+
+  // Limpar localStorage ao fechar a página
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.removeItem('decrementControl'); // Limpa a variável de controle de decremento
+      localStorage.removeItem('playControl'); // Limpa a variável de controle de play
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   return { audioRef, listeners };
 };
