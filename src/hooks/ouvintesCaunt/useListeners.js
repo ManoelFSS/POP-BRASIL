@@ -28,11 +28,6 @@ export const useListeners = () => {
     await updateDoc(countDocRef, { count: increment(-1) });
   };
 
-  const decrementListenersCountMobile = async () => {
-    const countDocRef = doc(db, 'listeners', 'listenersCount');
-    await updateDoc(countDocRef, { count: increment(-1) });
-  };
-
   const isNewTabOrFirstVisit = () => {
     if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
       return false;
@@ -93,12 +88,34 @@ export const useListeners = () => {
     };
   }, [audioRef, hasCounted]);
 
-  // Não decrementa o contador ao deixar a aba em segundo plano
+  // Verifica o fechamento da aba ou recarregamento real
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (hasCounted) {
+        // Se for uma nova sessão ou aba realmente fechada
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        if (!document.hidden && !isMobile) {
+          // Apenas remove se for uma nova sessão, não colocando aba em segundo plano
+          decrementListenersCount();
+          sessionStorage.setItem('hasCounted', 'false');
+        }
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [hasCounted]);
+
+  // Detecta se a aba está apenas em segundo plano e não decrementa
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.hidden) {
-        console.log('Página em segundo plano - mas contador não será decrementado');
-        // Mantemos o contador enquanto o áudio estiver tocando
+      if (!document.hidden) {
+        console.log('Aba foi trazida para frente.');
+      } else {
+        console.log('Aba em segundo plano - contador não será decrementado');
       }
     };
 
@@ -120,27 +137,6 @@ export const useListeners = () => {
 
     return () => unsubscribe();
   }, []);
-
-  // Decrementa o contador apenas ao fechar a janela ou parar o áudio
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      if (hasCounted) {
-        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-        if (isMobile) {
-          decrementListenersCountMobile();
-        } else {
-          decrementListenersCount();
-        }
-        sessionStorage.setItem('hasCounted', 'false');
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [hasCounted]);
 
   return { audioRef, listeners };
 };
