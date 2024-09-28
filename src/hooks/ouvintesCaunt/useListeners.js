@@ -6,7 +6,9 @@ export const useListeners = () => {
   const audioRef = useRef(null);
   const [listeners, setListeners] = useState(0);
   const [hasCounted, setHasCounted] = useState(false);
+  const localStorageKey = 'hasVisited';
 
+  // Função para inicializar o contador de ouvintes no Firebase
   const initializeListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const docSnapshot = await getDoc(countDocRef);
@@ -19,24 +21,28 @@ export const useListeners = () => {
   const incrementListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     await updateDoc(countDocRef, { count: increment(1) });
-    registerBackgroundSync();
   };
 
   const decrementListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     await updateDoc(countDocRef, { count: increment(-1) });
-    registerBackgroundSync();
   };
 
-  const registerBackgroundSync = async () => {
-    if ('serviceWorker' in navigator && 'SyncManager' in window) {
-      try {
-        const registration = await navigator.serviceWorker.ready;
-        await registration.sync.register('sync-listeners');
-      } catch (error) {
-        console.error('Erro ao registrar Background Sync:', error);
-      }
+  const decrementListenersCountMobile = async () => {
+    const countDocRef = doc(db, 'listeners', 'listenersCount');
+    await updateDoc(countDocRef, { count: increment(-1) });
+  };
+
+  const isNewTabOrFirstVisit = () => {
+    if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+      return false;
     }
+    return true;
+  };
+
+  const removeFromFirebase = async () => {
+    console.log('Removendo 1 do Firebase...');
+    await decrementListenersCount();
   };
 
   useEffect(() => {
@@ -44,6 +50,11 @@ export const useListeners = () => {
 
     const counted = sessionStorage.getItem('hasCounted') === 'true';
     setHasCounted(counted);
+
+    if (isNewTabOrFirstVisit()) {
+      console.log('Nova aba ou primeira visita - limpando localStorage');
+      localStorage.removeItem(localStorageKey);
+    }
 
     return () => {
       setHasCounted(false);
@@ -82,23 +93,12 @@ export const useListeners = () => {
     };
   }, [audioRef, hasCounted]);
 
+  // Não decrementa o contador ao deixar a aba em segundo plano
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        if (!audioRef.current.paused && hasCounted) {
-          return; // Se o áudio estiver tocando, não faz nada
-        }
-        if (hasCounted) {
-          decrementListenersCount();
-          sessionStorage.setItem('hasCounted', 'false');
-          setHasCounted(false);
-        }
-      } else {
-        if (audioRef.current && !audioRef.current.paused && !hasCounted) {
-          incrementListenersCount();
-          sessionStorage.setItem('hasCounted', 'true');
-          setHasCounted(true);
-        }
+        console.log('Página em segundo plano - mas contador não será decrementado');
+        // Mantemos o contador enquanto o áudio estiver tocando
       }
     };
 
@@ -107,8 +107,9 @@ export const useListeners = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [hasCounted]);
+  }, []);
 
+  // Escuta atualizações do Firebase
   useEffect(() => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const unsubscribe = onSnapshot(countDocRef, (doc) => {
@@ -120,10 +121,16 @@ export const useListeners = () => {
     return () => unsubscribe();
   }, []);
 
+  // Decrementa o contador apenas ao fechar a janela ou parar o áudio
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (hasCounted) {
-        decrementListenersCount();
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+          decrementListenersCountMobile();
+        } else {
+          decrementListenersCount();
+        }
         sessionStorage.setItem('hasCounted', 'false');
       }
     };
