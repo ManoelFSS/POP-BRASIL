@@ -5,10 +5,9 @@ import { db } from '../../services/FirebaseConfig';
 export const useListeners = () => {
   const audioRef = useRef(null);
   const [listeners, setListeners] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false); // Para verificar se o áudio está tocando
-  const [hasCounted, setHasCounted] = useState(false); // Para verificar se já incrementou
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasCounted, setHasCounted] = useState(false);
 
-  // Função para inicializar o contador de ouvintes no Firebase
   const initializeListenersCount = async () => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const docSnapshot = await getDoc(countDocRef);
@@ -30,10 +29,6 @@ export const useListeners = () => {
 
   useEffect(() => {
     initializeListenersCount();
-
-    return () => {
-      setHasCounted(false);
-    };
   }, []);
 
   useEffect(() => {
@@ -42,18 +37,19 @@ export const useListeners = () => {
     const handlePlay = () => {
       if (!hasCounted) {
         incrementListenersCount();
-        setHasCounted(true); // Marcar que já contou
+        setHasCounted(true);
       }
-      setIsPlaying(true); // Marcar que o áudio está tocando
+      setIsPlaying(true);
+      sessionStorage.setItem('audioPlaying', 'true'); // Armazena o estado do áudio
     };
 
     const handlePause = () => {
-      // Remove um ouvinte quando o áudio é pausado
       if (isPlaying) {
         decrementListenersCount();
       }
-      setIsPlaying(false); // Atualiza o estado para pausado
-      setHasCounted(false); // Permitir que o contador seja incrementado novamente
+      setIsPlaying(false);
+      setHasCounted(false);
+      sessionStorage.setItem('audioPlaying', 'false'); // Atualiza o estado do áudio
     };
 
     if (audio) {
@@ -69,12 +65,12 @@ export const useListeners = () => {
     };
   }, [audioRef, hasCounted, isPlaying]);
 
-  // Controle para fechamento de aba
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (isPlaying) {
         decrementListenersCount();
-        setHasCounted(false); // Reinicia a contagem para nova sessão
+        setHasCounted(false);
+        sessionStorage.setItem('audioPlaying', 'false'); // Atualiza o estado do áudio
       }
     };
 
@@ -85,7 +81,6 @@ export const useListeners = () => {
     };
   }, [isPlaying]);
 
-  // Escuta as mudanças no contador de ouvintes no Firebase
   useEffect(() => {
     const countDocRef = doc(db, 'listeners', 'listenersCount');
     const unsubscribe = onSnapshot(countDocRef, (doc) => {
@@ -101,10 +96,16 @@ export const useListeners = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        // Se a aba é visível e está pausada, podemos dar play sem incrementar o contador
-        if (audioRef.current && audioRef.current.paused) {
-          setIsPlaying(false);
-          setHasCounted(false); // Permitir que o contador seja incrementado na próxima vez que o áudio tocar
+        // Ao reabrir a aba, verifica se o áudio estava tocando
+        const audioPlaying = sessionStorage.getItem('audioPlaying') === 'true';
+        if (audioPlaying) {
+          if (audioRef.current) {
+            audioRef.current.play();
+          }
+          setIsPlaying(true); // Marca que o áudio está tocando
+          setHasCounted(true); // Não incrementa o contador novamente
+        } else {
+          setIsPlaying(false); // Se não estava tocando, permanece assim
         }
       }
     };
